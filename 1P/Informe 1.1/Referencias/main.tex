@@ -1,0 +1,685 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{seqsplit}
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{everypage}
+\usepackage{tikzpagenodes}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
+
+% ------------------------------------------------------------------
+% IMÁGENES NECESARIAS EN OVERLEAF (subir a la raíz del proyecto):
+%   - Logo.png                    -> logo institucional (ESPE)
+%   - DCCO.png                    -> logo del Departamento de Ciencias de la Computación
+%   - figura1_topologia.png       -> topología VM en modo NAT
+%   - figura2_ps_aux.png          -> salida de ps -aux
+%   - figura3_ps_aux_more.png     -> salida de ps -aux | more
+%   - figura4_ps_ef.png           -> salida de ps -ef
+%   - figura5_ps_u_root.png       -> salida de ps -u root
+%   - figura6_ps_forest.png       -> salida de ps -e --forest
+%   - figura7_top.png             -> herramienta top
+%   - figura8_htop.png            -> herramienta htop
+%   - figura9_pstree.png          -> pstree básico
+%   - figura10_pstree_p.png       -> pstree -p (con PID)
+%   - figura11_pstree_u.png       -> pstree -u root
+%   - figura12_pstree_a.png       -> pstree -a (con argumentos)
+%   - figura13_ls_proc.png        -> ls /proc
+%   - figura14_cpuinfo.png        -> cat /proc/cpuinfo
+%   - figura15_lscpu.png          -> lscpu
+%   - figura16_mpstat.png         -> mpstat global
+%   - figura17_mpstat_all.png     -> mpstat -P all 1
+% Todas en la misma carpeta que este .tex (proyecto plano de Overleaf).
+% NOTA: figuras 18-22 (atop, btop, gtop, glances, nmon) se trasladaron
+%        al documento de Deberes 2P.
+% ------------------------------------------------------------------
+
+\let\originaltexttt\texttt
+\DeclareRobustCommand\texttt[1]{{\ttfamily\seqsplit{#1}}}
+
+\geometry{left=3cm, right=2.75cm, top=4.5cm, bottom=4cm}
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0pt}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\pagestyle{empty}
+
+\definecolor{negro_suave}{rgb}{.15,.15,.15}
+\definecolor{blanco_puro}{rgb}{1,1,1}
+
+% ------------------------------------------------------------------
+\definecolor{codegray}{rgb}{0.95,0.95,0.95}
+\definecolor{codegreen}{rgb}{0.0,0.5,0.0}
+\definecolor{codeblue}{rgb}{0.0,0.0,0.7}
+\definecolor{codepurple}{rgb}{0.58,0.0,0.82}
+
+\lstdefinestyle{academico}{
+    backgroundcolor=\color{codegray},
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{codeblue}\bfseries,
+    commentstyle=\color{codegreen}\itshape,
+    stringstyle=\color{codepurple},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=8pt,
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4,
+    captionpos=b,
+    literate=%
+        {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+        {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+        {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
+}
+\lstset{style=academico}
+
+% ------------------------------------------------------------------
+% Portada (página 1) y bandas con logos en el resto de páginas.
+% ------------------------------------------------------------------
+\AddEverypageHook{%
+\tikz[remember picture,overlay]{%
+  \ifnum\value{page}>1%
+    \filldraw[fill=negro_suave, thick, draw=blanco_puro] (1,-1.6) rectangle (16,-1.3);
+    \filldraw[fill=negro_suave, thick, draw=blanco_puro] (1,-1.6-22.8) rectangle (16,-1.3-22.8);
+        \node[anchor=east] at (16,-25) {\textcolor{black}{{\footnotesize DCCO - ESPE}}};
+        \node[anchor=west] at (1,-25) {\textcolor{black}{{\footnotesize \thepage}}};
+        \node at (1.8,0) {\includegraphics[width=2.5cm]{DCCO.png}};
+  \else
+    \filldraw[fill=negro_suave, thick, draw=blanco_puro] (-0.3,0) rectangle (0.3,-26);
+    \filldraw[fill=negro_suave, thick, draw=blanco_puro] (1,-1.6) rectangle (16,-1.3);
+    \filldraw[fill=negro_suave, thick, draw=blanco_puro] (1,-1.6-21.8) rectangle (16,-1.3-21.8);
+    \node[anchor=east] at (16,-25) {\textit{{\Large ING. WALTER FUERTES}}};
+    \node[anchor=east] at (16,-25.8) {\textit{{\Large Departamento de Ciencias de la Computación - ESPE}}};
+    \node[anchor=east] at (16,-9)  {\textbf{\Huge Sistemas Operativos}};
+    \node[anchor=east] at (16,-11) {\textbf{\Large PR\'ACTICA DE LABORATORIO N.\textsuperscript{o} 1 2P}};
+    \node[anchor=east] at (16,-13) {\Large Autor: Blacio Machuca Julio Cesar};
+    \node[anchor=east] at (16,-14.2) {\Large NRC: 30770};
+    \node[anchor=east] at (16,-15.4) {\Large Fecha: 20 de mayo de 2026};
+    \node[anchor=east] at (16,-16.6) {\Large Segunda Unidad: Gestión de Procesos};
+    \node[anchor=east] at (16,-22) {\textbf{\LARGE GESTI\'ON DE PROCESOS EN LINUX}};
+    \node at (4.2,0.) {\includegraphics[width=6cm]{Logo.png}};
+    \node at (14,0.) {\includegraphics[width=2.5cm]{DCCO.png}};
+  \fi}
+}
+
+\begin{document}
+
+% ------------------------------------------------------------------
+\thispagestyle{empty}
+\null
+\newpage
+
+% ------------------------------------------------------------------
+\tableofcontents
+\newpage
+\listoffigures
+\listoftables
+\newpage
+
+% ==================================================================
+\section{Objetivos de aprendizaje}
+% ==================================================================
+
+\begin{enumerate}[leftmargin=*]
+    \item El estudiante identifique un proceso, lo cree, lo elimine y sea capaz de gestionar
+    procesos en primer y segundo plano en un entorno Linux.
+    \item Al finalizar la práctica, el estudiante visualice el rendimiento y el desempeño
+    del procesador mediante herramientas de monitoreo del sistema.
+    \item El estudiante interprete correctamente las métricas de desempeño reportadas por las
+    herramientas de monitoreo \texttt{top} y \texttt{htop}, relacionándolas con el estado interno
+    de los procesos expuesto por el núcleo a través del sistema de archivos virtual \texttt{/proc}.
+\end{enumerate}
+
+% ==================================================================
+\section{Marco Teórico}
+% ==================================================================
+
+\subsection{Procesos en Linux}
+
+En los sistemas operativos modernos, y en particular en los sistemas basados en Linux, un
+\textbf{proceso} se define como un programa en ejecución, es decir, una instancia activa de un
+programa que ocupa recursos del sistema y que posee un contexto de ejecución propio. Cada proceso
+recibe del kernel un identificador numérico único denominado PID (\emph{Process Identifier}),
+comparable a una cédula de identidad digital, que le permite ser distinguido, monitorizado y
+administrado de forma individual (Tanenbaum y Bos, 2015). Un proceso difiere de un programa en
+que el programa constituye únicamente una secuencia estática de instrucciones almacenadas en
+disco, mientras que el proceso representa la ejecución dinámica de dicho programa junto con su
+estado en memoria, los registros del procesador, los archivos abiertos y demás recursos activos.
+
+La gestión de procesos constituye una de las funciones centrales del sistema operativo, pues de
+ella depende la correcta distribución del tiempo de procesador, la memoria y los dispositivos de
+entrada y salida entre los distintos procesos que compiten por estos recursos. En Linux, esta
+función recae en el \emph{kernel}, componente que actúa como núcleo del sistema operativo y que
+mantiene en todo momento una tabla de procesos con la información de cada proceso activo.
+
+\subsection{Ciclo de vida de un proceso: estados y transiciones}
+
+Durante su existencia, un proceso en Linux atraviesa cinco estados bien definidos, descritos en
+la Tabla~\ref{tab:estados}.
+
+\begin{table}[H]
+    \centering
+    \caption{Estados de un proceso durante su ciclo de vida.}
+    \label{tab:estados}
+    \begin{tabular}{@{}>{\bfseries}l c p{9cm}@{}}
+        \toprule
+        Estado      & Símbolo & Descripción \\
+        \midrule
+        Nuevo       & N & El proceso se está creando. \\
+        Listo       & L & El proceso espera la asignación de la CPU por parte del planificador. \\
+        Ejecución   & E & El proceso recibe la CPU y ejecuta sus instrucciones. \\
+        Bloqueado   & B / S & El proceso espera la finalización de una operación de E/S. \\
+        Terminado   & T & El proceso ha concluido su ejecución y libera todos sus recursos. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Las transiciones entre estos estados siguen una secuencia lógica: el proceso parte del estado
+\emph{Nuevo}, avanza al estado \emph{Listo} mediante la admisión del kernel, pasa a
+\emph{Ejecución} cuando el planificador le asigna el procesador y, al concluir, transita al
+estado \emph{Terminado}. Si durante la ejecución requiere esperar un evento externo, transita
+al estado \emph{Bloqueado} y regresa a \emph{Listo} una vez completada la espera.
+
+\subsection{Bloque de Control de Procesos (PCB)}
+
+El sistema operativo mantiene para cada proceso activo una estructura de datos denominada
+\textbf{PCB} (\emph{Process Control Block}), que almacena toda la información necesaria para
+gestionar y reanudar el proceso en cualquier momento. Sus campos principales son el PID, el
+PPID (\emph{Parent Process Identifier}), el estado del proceso, el contador de programa, los
+registros de la CPU, los punteros a memoria, los límites de memoria, la lista de archivos
+abiertos, la prioridad y los datos contables de uso de recursos (Silberschatz et al., 2018).
+
+\subsection{Tipos de usuarios en Linux}
+
+Linux distingue tres tipos de usuarios en función de sus privilegios sobre el sistema:
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Usuario sin privilegios (\texttt{\$}):} Puede ejecutar aplicaciones y acceder
+    únicamente a los recursos que le han sido asignados explícitamente.
+    \item \textbf{Usuario administrador o \texttt{root} (\texttt{\#}):} Posee control total
+    sobre el sistema; puede crear, modificar y eliminar cualquier proceso, archivo o
+    configuración del sistema operativo.
+    \item \textbf{Usuario \texttt{sudo}:} Permite a un usuario sin privilegios ejecutar comandos
+    específicos con permisos de administrador, mediante la autenticación con contraseña, sin
+    necesidad de iniciar sesión como \texttt{root}.
+\end{itemize}
+
+\subsection{Sistema de archivos \texttt{/proc}}
+
+En Linux, el directorio \texttt{/proc} es un sistema de archivos virtual (\emph{procfs}) que no
+existe físicamente en el disco, sino que el kernel genera dinámicamente en memoria. Cada proceso
+activo tiene un subdirectorio dentro de \texttt{/proc} con nombre igual a su PID, que contiene
+archivos con información detallada sobre ese proceso: uso de memoria, estado, línea de comandos
+con la que fue lanzado, descriptores de archivos abiertos, entre otros. Adicionalmente, archivos
+como \texttt{/proc/cpuinfo}, \texttt{/proc/meminfo} y \texttt{/proc/stat} proveen información
+global sobre el hardware y el estado del sistema, siendo la fuente de datos que utilizan
+internamente herramientas como \texttt{top} y \texttt{htop} (Love, 2010).
+
+\subsection{Herramientas de gestión y monitoreo de procesos}
+
+Linux ofrece un conjunto de herramientas de línea de comandos para la gestión y el monitoreo de
+procesos, clasificadas en dos grupos. Los comandos de consulta y gestión incluyen \texttt{ps},
+que genera una fotografía estática de los procesos activos; \texttt{pgrep}, que busca procesos
+por nombre o patrón; \texttt{pidof}, que devuelve el PID dado el nombre exacto del ejecutable;
+\texttt{sleep}, que crea un proceso de espera controlada; y \texttt{kill}, que envía señales a
+los procesos. Las herramientas de monitoreo dinámico comprenden \texttt{top}, que muestra en
+tiempo real la lista de procesos ordenados por consumo de CPU; \texttt{htop}, versión interactiva
+y mejorada de \texttt{top}; \texttt{pstree}, que representa la jerarquía de procesos en forma de
+árbol; y \texttt{mpstat}, que reporta estadísticas de uso del procesador por núcleo (Kerrisk, 2010).
+
+% ==================================================================
+\section{Topología}
+% ==================================================================
+
+La práctica se desarrolló en un entorno de virtualización compuesto por una máquina virtual Linux
+configurada en modo NAT (\emph{Network Address Translation}). En este modo, la máquina virtual
+accede a la red a través de la dirección IP del sistema anfitrión, lo que permite la conectividad
+a Internet sin exponer la máquina virtual directamente en la red local. La Figura~\ref{fig:topo}
+ilustra esta topología.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figura1_topologia.png}
+    \caption{Topología de red: máquina virtual en modo NAT.}
+    \label{fig:topo}
+\end{figure}
+
+% ==================================================================
+\section{Desarrollo}
+% ==================================================================
+
+\subsection{Sistema de ayuda en línea}
+
+Antes de proceder con la gestión de procesos, se revisaron los mecanismos de ayuda en línea
+disponibles en Linux, resumidos en la Tabla~\ref{tab:ayuda}.
+
+\begin{table}[H]
+    \centering
+    \caption{Comandos de ayuda en línea disponibles en Linux.}
+    \label{tab:ayuda}
+    \begin{tabular}{@{}l p{9.5cm}@{}}
+        \toprule
+        Comando & Descripción \\
+        \midrule
+        \texttt{man <comando>}  & Muestra el manual completo del comando indicado. \\
+        \texttt{whatis <cmd>}   & Proporciona una descripción de una sola línea del comando. \\
+        \texttt{info <cmd>}     & Presenta documentación extendida en formato hipertextual. \\
+        \texttt{<cmd> --help}   & Muestra un resumen rápido de las opciones del comando. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Comando \texttt{ps} — Estado de los procesos}
+
+El comando \texttt{ps} (\emph{Process Status}) genera una lista estática de los procesos activos
+en el sistema en el momento en que se ejecuta. A diferencia de \texttt{top}, no actualiza la
+información de forma continua. Sus variantes principales se detallan a continuación.
+
+\subsubsection{\texttt{ps -aux} — Todos los procesos de todos los usuarios}
+
+La opción \texttt{-aux} combinó tres flags: \texttt{a} mostró los procesos de todos los
+usuarios, \texttt{u} presentó la salida en formato orientado al usuario con columnas de propietario,
+PID, \texttt{\%CPU} y \texttt{\%MEM}, y \texttt{x} incluyó los procesos que no estaban asociados a
+una terminal. Esta variante resultó la más empleada para obtener una visión global del sistema.
+
+\begin{lstlisting}[language=bash,caption={Comando ps -aux para listar todos los procesos del sistema.},label={lst:psaux}]
+$ ps -aux
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura2_ps_aux.png}
+    \caption[Salida de ps -aux.]{Salida del comando \texttt{ps -aux}, mostrando todos los procesos del sistema.}
+    \label{fig:psaux}
+\end{figure}
+
+Los campos más relevantes de la salida se describen en la Tabla~\ref{tab:campos_ps}.
+
+\begin{table}[H]
+    \centering
+    \caption{Campos principales de la salida de ps -aux.}
+    \label{tab:campos_ps}
+    \begin{tabular}{@{}>{\ttfamily}l p{9.5cm}@{}}
+        \toprule
+        \textrm{Campo} & Descripción \\
+        \midrule
+        USER    & Nombre del usuario propietario del proceso. \\
+        PID     & Identificador único del proceso. \\
+        \%CPU   & Porcentaje de tiempo de CPU consumido. \\
+        \%MEM   & Porcentaje de memoria RAM utilizada. \\
+        VSZ     & Tamaño del espacio de memoria virtual asignado (en KB). \\
+        RSS     & Memoria RAM física en uso (\emph{Resident Set Size}, en KB). \\
+        STAT    & Estado actual del proceso (S = dormido, R = en ejecución, etc.). \\
+        COMMAND & Nombre o ruta del comando que inició el proceso. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{\texttt{ps -aux | more} — Paginación de la salida}
+
+Dado que la salida de \texttt{ps -aux} puede ser extensa, se canalizó con \texttt{more} para
+permitir su revisión paginada:
+
+\begin{lstlisting}[language=bash,caption={Paginación de la salida de ps -aux con more.},label={lst:psmore}]
+$ ps -aux | more
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura3_ps_aux_more.png}
+    \caption[Salida de ps -aux paginada con more.]{Salida de \texttt{ps -aux} paginada con \texttt{more}.}
+    \label{fig:psmore}
+\end{figure}
+
+\subsubsection{\texttt{ps -ef} — Formato estándar completo}
+
+La opción \texttt{-ef} presentó todos los procesos del sistema (\texttt{-e}) en formato
+estándar completo (\texttt{-f}), con las columnas UID, PID, PPID, \texttt{\%CPU}, \texttt{STIME},
+\texttt{TTY} y \texttt{CMD}. Esta variante resultó especialmente útil para identificar las
+relaciones padre-hijo mediante la columna PPID:
+
+\begin{lstlisting}[language=bash,caption={Comando ps -ef con formato estándar completo.},label={lst:psef}]
+$ ps -ef
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura4_ps_ef.png}
+    \caption[Salida de ps -ef.]{Salida del comando \texttt{ps -ef}, mostrando PID, PPID y otras métricas.}
+    \label{fig:psef}
+\end{figure}
+
+\subsubsection{\texttt{ps -u root} — Procesos del usuario root}
+
+La opción \texttt{-u root} filtró y mostró únicamente los procesos pertenecientes al usuario
+\texttt{root}, lo que permitió auditar los servicios del sistema con privilegios de administrador:
+
+\begin{lstlisting}[language=bash,caption={Filtrado de procesos del usuario root con ps -u root.},label={lst:psroot}]
+$ ps -u root
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura5_ps_u_root.png}
+    \caption[Salida de ps -u root.]{Procesos del usuario \texttt{root} obtenidos con \texttt{ps -u root}.}
+    \label{fig:psroot}
+\end{figure}
+
+\subsubsection{\texttt{ps -e --forest} — Árbol jerárquico de procesos}
+
+La opción \texttt{--forest} presentó la lista de todos los procesos (\texttt{-e}) en formato de
+árbol ASCII que visualizó la jerarquía de procesos padre-hijo mediante sangría y
+caracteres de ramificación:
+
+\begin{lstlisting}[language=bash,caption={Árbol de jerarquía de procesos con ps -e --forest.},label={lst:psforest}]
+$ ps -e --forest
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura6_ps_forest.png}
+    \caption[Salida de ps -e --forest.]{Árbol de jerarquía de procesos generado con \texttt{ps -e --forest}.}
+    \label{fig:psforest}
+\end{figure}
+
+\subsection{Herramientas de monitoreo dinámico}
+
+\subsubsection{\texttt{top} — Monitor de procesos en tiempo real}
+
+La herramienta \texttt{top} mostró dinámicamente la lista de procesos activos, ordenados por
+defecto según el consumo de CPU, y actualizó la información cada tres segundos. En la cabecera
+se presentaron métricas globales del sistema: tiempo de actividad (\emph{uptime}), número de
+usuarios conectados, carga promedio en 1, 5 y 15 minutos, estadísticas de tareas y el uso de
+CPU y memoria RAM. La sesión se terminó mediante la tecla \texttt{q}.
+
+\begin{lstlisting}[language=bash,caption={Ejecución de la herramienta top.},label={lst:top}]
+$ top
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura7_top.png}
+    \caption[Interfaz de top.]{Interfaz de la herramienta \texttt{top} mostrando procesos ordenados por consumo de CPU.}
+    \label{fig:top}
+\end{figure}
+
+\subsubsection{\texttt{htop} — Monitor interactivo mejorado}
+
+La herramienta \texttt{htop} constituyó una versión extendida e interactiva de \texttt{top}, que presentó
+la misma información con una interfaz gráfica en color, barras de progreso para CPU y RAM y
+soporte para navegación con el ratón. Permitió ordenar la lista de procesos de forma interactiva
+y gestionar procesos directamente desde la interfaz sin necesidad de conocer el PID.
+
+\begin{lstlisting}[language=bash,caption={Ejecución de la herramienta htop.},label={lst:htop}]
+$ htop
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figura8_htop.png}
+    \caption[Interfaz de htop.]{Interfaz de \texttt{htop} con barras de progreso por núcleo y métricas de memoria.}
+    \label{fig:htop}
+\end{figure}
+
+\subsection{Árbol de procesos con \texttt{pstree}}
+
+La herramienta \texttt{pstree} representó la jerarquía de todos los procesos del sistema en
+forma de árbol, partiendo del proceso \texttt{init} (PID~1) o \texttt{systemd} como raíz.
+
+\subsubsection{\texttt{pstree} — Árbol básico}
+
+\begin{lstlisting}[language=bash,caption={Visualización básica del árbol de procesos con pstree.},label={lst:pstree}]
+$ pstree
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura9_pstree.png}
+    \caption{Árbol de procesos básico generado con \texttt{pstree}.}
+    \label{fig:pstree}
+\end{figure}
+
+\subsubsection{\texttt{pstree -p} — Con identificadores de proceso}
+
+La opción \texttt{-p} añadió el PID de cada proceso entre paréntesis junto a su nombre:
+
+\begin{lstlisting}[language=bash,caption={Árbol de procesos con PID mediante pstree -p.},label={lst:pstreep}]
+$ pstree -p
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura10_pstree_p.png}
+    \caption[Árbol de procesos con PID.]{Árbol de procesos con PID visible mediante \texttt{pstree -p}.}
+    \label{fig:pstreep}
+\end{figure}
+
+\subsubsection{\texttt{pstree -u root} — Filtrado por usuario root}
+
+La opción \texttt{-u} mostró el nombre del usuario propietario de cada proceso cuando este
+cambió respecto al del proceso padre, lo que permitió identificar transiciones de privilegios:
+
+\begin{lstlisting}[language=bash,caption={Árbol de procesos del usuario root con pstree -u root.},label={lst:ptreeu}]
+$ pstree -u root
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura11_pstree_u.png}
+    \caption[Árbol de procesos del usuario root.]{Árbol de procesos del usuario \texttt{root} con \texttt{pstree -u root}.}
+    \label{fig:ptreeu}
+\end{figure}
+
+\subsubsection{\texttt{pstree -a} — Con argumentos completos}
+
+La opción \texttt{-a} mostró, junto al nombre de cada proceso, la línea de comandos completa
+con la que fue invocado, así como todos sus argumentos:
+
+\begin{lstlisting}[language=bash,caption={Árbol de procesos con argumentos completos mediante pstree -a.},label={lst:ptreea}]
+$ pstree -a
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura12_pstree_a.png}
+    \caption[Árbol con argumentos completos.]{Árbol de procesos con argumentos completos mediante \texttt{pstree -a}.}
+    \label{fig:ptreea}
+\end{figure}
+
+\subsection{Búsqueda de procesos: \texttt{pgrep}, \texttt{pidof} y \texttt{sleep}}
+
+\subsubsection{\texttt{pgrep} — Búsqueda por nombre o patrón}
+
+El comando \texttt{pgrep} (\emph{Process Grep}) buscó, entre los procesos en ejecución, aquellos
+cuyo nombre coincidió con el patrón proporcionado y devolvió sus PIDs. A diferencia de canalizar
+la salida de \texttt{ps} con \texttt{grep}, \texttt{pgrep} actuó directamente sobre la tabla de
+procesos del kernel:
+
+\begin{lstlisting}[language=bash,caption={Búsqueda de procesos por nombre con pgrep.},label={lst:pgrep}]
+$ pgrep firefox
+1234
+\end{lstlisting}
+
+\subsubsection{\texttt{pidof} — PID por nombre exacto}
+
+El comando \texttt{pidof} devolvió el o los PIDs de todos los procesos cuyo nombre de ejecutable
+coincidió exactamente con el argumento especificado:
+
+\begin{lstlisting}[language=bash,caption={Obtención del PID por nombre exacto con pidof.},label={lst:pidof}]
+$ pidof firefox
+1234 5678
+\end{lstlisting}
+
+\subsubsection{\texttt{sleep} — Proceso de espera controlada}
+
+El comando \texttt{sleep} creó un proceso que se mantuvo en estado \emph{Bloqueado} durante
+el número de segundos indicado. Se empleó para generar procesos de prueba cuyo PID pudiera
+ser identificado con los comandos anteriores:
+
+\begin{lstlisting}[language=bash,caption={Uso del comando sleep para crear procesos de prueba.},label={lst:sleep}]
+$ sleep 5        # suspende 5 segundos
+$ sleep 1000     # suspende 1000 segundos (proceso de prueba)
+$ pidof sleep    # devuelve el PID del proceso sleep en ejecucion
+\end{lstlisting}
+
+\subsection{Sistema de archivos \texttt{/proc}}
+
+\subsubsection{\texttt{ls /proc} — Listado del sistema de archivos virtual}
+
+\begin{lstlisting}[language=bash,caption={Listado del contenido del sistema de archivos virtual /proc.},label={lst:lsproc}]
+$ ls /proc
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura13_ls_proc.png}
+    \caption[Contenido de /proc.]{Contenido del sistema de archivos virtual \texttt{/proc}.}
+    \label{fig:lsproc}
+\end{figure}
+
+Cada directorio numérico correspondió al PID de un proceso activo; los archivos y directorios
+con nombres textuales contuvieron información global del sistema.
+
+\subsubsection{\texttt{cat /proc/cpuinfo} — Información del procesador}
+
+El archivo \texttt{/proc/cpuinfo} expuso en texto plano la información detallada de cada
+núcleo del procesador: modelo, velocidad en MHz, tamaño de caché y banderas de instrucciones
+soportadas, entre otros:
+
+\begin{lstlisting}[language=bash,caption={Lectura de la información del procesador desde /proc/cpuinfo.},label={lst:cpuinfo}]
+$ cat /proc/cpuinfo
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura14_cpuinfo.png}
+    \caption[Información del procesador desde /proc/cpuinfo.]{Información del procesador obtenida desde \texttt{/proc/cpuinfo}.}
+    \label{fig:cpuinfo}
+\end{figure}
+
+\subsubsection{\texttt{lscpu} — Resumen de la arquitectura del procesador}
+
+La herramienta \texttt{lscpu} presentó de forma estructurada la arquitectura del procesador,
+el número de CPUs, de núcleos, de hilos por núcleo, la velocidad máxima y mínima en MHz y
+la información de caché:
+
+\begin{lstlisting}[language=bash,caption={Resumen de la arquitectura del procesador con lscpu.},label={lst:lscpu}]
+$ lscpu
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura15_lscpu.png}
+    \caption{Arquitectura del procesador obtenida con \texttt{lscpu}.}
+    \label{fig:lscpu}
+\end{figure}
+
+\subsection{Monitoreo de la CPU con \texttt{mpstat}}
+
+La herramienta \texttt{mpstat} (\emph{Multiprocessor Statistics}) formó parte del paquete
+\texttt{sysstat} y reportó estadísticas de uso del procesador.
+
+\subsubsection{\texttt{mpstat} — Estadísticas globales del procesador}
+
+\begin{lstlisting}[language=bash,caption={Estadísticas globales del procesador con mpstat.},label={lst:mpstat}]
+$ mpstat
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura16_mpstat.png}
+    \caption{Estadísticas globales del procesador obtenidas con \texttt{mpstat}.}
+    \label{fig:mpstat}
+\end{figure}
+
+Los campos principales incluyeron \texttt{\%usr} (tiempo en modo usuario), \texttt{\%sys}
+(tiempo en modo kernel), \texttt{\%iowait} (tiempo esperando E/S) e \texttt{\%idle}
+(tiempo de inactividad).
+
+\subsubsection{\texttt{mpstat -P all 1} — Estadísticas por núcleo}
+
+La opción \texttt{-P all} reportó el uso de cada núcleo del procesador de forma individual;
+el argumento \texttt{1} indicó actualización cada segundo:
+
+\begin{lstlisting}[language=bash,caption={Estadísticas por núcleo del procesador con mpstat -P all 1.},label={lst:mpstatall}]
+$ mpstat -P all 1
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figura17_mpstat_all.png}
+    \caption[Estadísticas por núcleo con mpstat.]{Uso del procesador por núcleo con \texttt{mpstat -P all 1}.}
+    \label{fig:mpstatall}
+\end{figure}
+
+% ==================================================================
+\section{Conclusiones}
+% ==================================================================
+
+El estudio y la aplicación práctica de las herramientas de gestión y monitoreo de procesos en
+Linux permitieron al estudiante desarrollar competencias esenciales para la administración de
+sistemas operativos. El comando \texttt{ps} y sus variantes demostraron ser la base fundamental
+para la consulta estática del estado de los procesos: \texttt{ps -aux} proporcionó una visión
+global de todos los procesos del sistema, \texttt{ps -ef} expuso las relaciones padre-hijo
+mediante la columna PPID, \texttt{ps -u root} permitió auditar los procesos con privilegios
+administrativos y \texttt{ps -e --forest} visualizó la jerarquía completa en formato de árbol.
+
+Las herramientas \texttt{pgrep}, \texttt{pidof} y \texttt{sleep} facilitaron la identificación
+y creación de procesos de prueba de forma controlada, complementando la gestión dinámica de
+la terminal. La exploración del sistema de archivos virtual \texttt{/proc} reveló la arquitectura
+interna con la que el kernel de Linux expone la información de los procesos al espacio de usuario,
+que constituyó la fuente de datos primaria de todas las herramientas de monitoreo estudiadas.
+
+Las herramientas de monitoreo dinámico revisadas —\texttt{top}, \texttt{htop}, \texttt{pstree}
+y \texttt{mpstat}— presentaron distintos niveles de profundidad y especialización. Para
+diagnósticos rápidos e interactivos en sistemas de producción resultó suficiente \texttt{htop},
+dada su interfaz ncurses con barras de progreso por núcleo y soporte para el envío de señales
+desde la propia pantalla; mientras que \texttt{mpstat} constituyó la opción más apropiada para
+el análisis cuantitativo del uso del procesador por núcleo físico y lógico.
+
+% ==================================================================
+% Referencias
+% ==================================================================
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{Referencias}
+\setlength{\itemsep}{0.4em}
+
+\bibitem{kerrisk2010} Kerrisk, M. (2010). \emph{The Linux programming interface: A Linux and
+UNIX system programming handbook}. No Starch Press.
+
+\bibitem{love2010} Love, R. (2010). \emph{Linux kernel development} (3.ª~ed.). Addison-Wesley.
+
+\bibitem{silberschatz2018} Silberschatz, A., Galvin, P. B., y Gagne, G. (2018). \emph{Operating
+system concepts} (10.ª~ed.). John Wiley \& Sons.
+
+\bibitem{tanenbaum2015} Tanenbaum, A. S., y Bos, H. (2015). \emph{Modern operating systems}
+(4.ª~ed.). Pearson Education.
+
+\bibitem{linuxfoundation2024} The Linux Foundation. (2024). \emph{The Linux man pages project}.
+Recuperado de \url{https://man7.org/linux/man-pages/}
+
+\end{thebibliography}
+
+% ==================================================================
+\end{document}
+% ==================================================================

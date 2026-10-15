@@ -1,0 +1,5 @@
+Path del usuario: entradas relacionadas con Flutter
+C:\Users\jcbla\flutter\flutter\bin
+Resolución del comando flutter:
+C:\Users\jcbla\flutter\flutter\bin\flutter
+C:\Users\jcbla\flutter\flutter\bin\flutter.bat

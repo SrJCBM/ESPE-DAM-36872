@@ -1,0 +1,8 @@
+
+Sistema          : Microsoft Windows 11 Home
+Version          : 10.0.26300
+Arquitectura     : 64 bits
+Procesador       : 12th Gen Intel(R) Core(TM) i5-12500H
+RAM_GB           : 15,69
+Disco_C_libre_GB : 28,06
+

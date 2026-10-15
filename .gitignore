@@ -1,0 +1,113 @@
+# Referencias locales (solo la carpeta de la raiz)
+/Referencias/
+
+# Flutter y Dart: caches y archivos regenerables
+.dart_tool/
+.pub-cache/
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+**/doc/api/
+**/ios/Flutter/.last_build_id
+app.*.symbols
+app.*.map.json
+
+# Compilaciones, distribuciones y cobertura en cualquier proyecto
+build/
+dist/
+out/
+coverage/
+.build/
+*.apk
+*.aab
+*.apks
+*.ipa
+*.app/
+*.dSYM/
+*.class
+*.o
+*.obj
+*.pdb
+
+# Android y Gradle (conservar gradle-wrapper.jar)
+.gradle/
+.kotlin/
+.cxx/
+.externalNativeBuild/
+**/android/local.properties
+**/android/key.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+*.jks
+*.keystore
+
+# iOS, macOS, CocoaPods y Swift
+Pods/
+.symlinks/
+DerivedData/
+.swiftpm/
+**/Flutter/ephemeral/
+**/Flutter/Generated.xcconfig
+**/Flutter/flutter_export_environment.sh
+**/Flutter/Flutter.framework/
+**/Flutter/App.framework/
+**/Flutter/Flutter.podspec
+**/Flutter/.last_build_id
+**/Runner/GeneratedPluginRegistrant.*
+xcuserdata/
+*.xcuserstate
+
+# Flutter desktop: archivos temporales generados
+**/flutter/ephemeral/
+
+# Dependencias y caches de JavaScript y Python
+node_modules/
+.npm/
+.next/
+.nuxt/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Configuracion privada (conservar las plantillas)
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# IDE, registros y temporales del sistema
+.idea/
+*.iml
+*.ipr
+*.iws
+.vs/
+.history/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+._*
+__MACOSX/
+Thumbs.db
+Desktop.ini
+
+# Copias comprimidas de entregas: conservar las fuentes en Git
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# Se conservan pubspec.lock, package-lock.json, recursos e informes.
+# Git no filtra por peso: revisar archivos grandes antes del commit.

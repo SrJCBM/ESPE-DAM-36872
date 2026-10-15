@@ -1,0 +1,455 @@
+
+--- PAGINA 1 ---
+Universidad de las Fuerzas Armadas ESPE
+Departamento de Ciencias de la Computación
+Desarrollo de Aplicaciones
+Móviles
+INFORME DE LABORATORIO 1.1
+Instalación y configuración
+del SDK de Flutter
+y Android Studio
+Autores:Julio Blacio, Kerly Chuqui y Josue Guayasamin
+NRC:36872
+Docente
+Doris Karina Chicaiza Angamarca
+Fecha:5 de octubre de 2026
+
+--- PAGINA 2 ---
+2
+Índice de contenidos
+Índice de figuras 4
+Índice de tablas 5
+Introducción 6
+Objetivos de aprendizaje 6
+Objetivo general . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+Objetivos específicos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+Marco teórico 7
+Flutter y Dart . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+Android Studio y el SDK de Android . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+Integración del entorno . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+Entorno y materiales 7
+Desarrollo del procedimiento 8
+Revisión del equipo y preparación de Git . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+Descarga y extracción del SDK de Flutter . . . . . . . . . . . . . . . . . . . . . . . . . 9
+Configuración de la variable Path . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+Instalación de Android Studio . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+Configuración del SDK de Android . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+Complementos de Flutter y Dart . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+Licencias y diagnóstico del entorno . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+Preparación del dispositivo de prueba . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+Creación y ejecución del proyecto inicial . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+Resultados y análisis 21
+
+--- PAGINA 3 ---
+3
+Registro de incidencias . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+Conclusiones 23
+Recomendaciones 24
+Referencias 25
+Apéndice 26
+
+--- PAGINA 4 ---
+4
+Índice de figuras
+Figura 1. Revisión del equipo y disponibilidad de Git . . . . . . . . . . . . . . . . . . . . 9
+Figura 2. Ubicación y estructura del SDK de Flutter . . . . . . . . . . . . . . . . . . . . . 10
+Figura 3. Ruta de Flutter en la variable de entorno Path . . . . . . . . . . . . . . . . . . . 11
+Figura 4. Comprobación de Flutter y Dart desde la terminal . . . . . . . . . . . . . . . . . 12
+Figura 5. Instalación de Android Studio en Windows . . . . . . . . . . . . . . . . . . . . 13
+Figura 6. Configuración inicial de Android Studio . . . . . . . . . . . . . . . . . . . . . . 14
+Figura 7. Plataformas y herramientas del SDK de Android . . . . . . . . . . . . . . . . . 15
+Figura 8. Complemento de Flutter instalado en Android Studio . . . . . . . . . . . . . . . 16
+Figura 9. Revisión de licencias del SDK de Android . . . . . . . . . . . . . . . . . . . . . 17
+Figura 10. Diagnóstico del entorno de desarrollo . . . . . . . . . . . . . . . . . . . . . . . 18
+Figura 11. Dispositivo Android disponible para las pruebas . . . . . . . . . . . . . . . . . 19
+Figura 12. Proyecto Flutter abierto en Android Studio . . . . . . . . . . . . . . . . . . . . 20
+Figura 13. Prueba de ejecución de la aplicación en Android . . . . . . . . . . . . . . . . . 21
+
+--- PAGINA 5 ---
+5
+Índice de tablas
+Tabla 1. Registro del entorno de referencia . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+Tabla 2. Matriz de verificación del entorno . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+Tabla 3. Incidencias y acciones aplicadas . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+--- PAGINA 6 ---
+6
+Instalación y configuración del SDK de Flutter y Android Studio
+El desarrollo de aplicaciones móviles requiere un entorno que permita escribir código,
+resolver dependencias, compilar y ejecutar pruebas en un dispositivo. Julio Blacio, Kerly Chuqui
+y Josue Guayasamin desarrollaron este trabajo de manera conjunta. El grupo organizó el
+procedimiento de instalación del SDK de Flutter y de Android Studio en Windows, revisó la
+configuración de las herramientas de Android y documentó la comprobación del entorno
+mediante una aplicación inicial.
+El informe reunió el procedimiento y los resultados como parte de la práctica grupal. Las
+evidencias se organizaron por comprobación y debajo de cada figura se identificó el equipo del
+que procedió la captura.
+Objetivos de aprendizaje
+Objetivo general
+Configurar un entorno de desarrollo de aplicaciones móviles con Flutter y Android Studio
+en Windows, y comprobar su funcionamiento mediante la ejecución de una aplicación en
+Android.
+Objetivos específicos
+1. Identificar la función del SDK de Flutter, el SDK de Android y el entorno de desarrollo
+integrado.
+2. Establecer la ruta de Flutter en la variable de entorno Path.
+3. Preparar Android Studio, los complementos de Flutter y Dart, y las herramientas del SDK de
+Android.
+4. Verificar licencias, disponibilidad del dispositivo y ejecución de un proyecto inicial.
+5. Documentar cada comprobación con capturas y registrar las incidencias encontradas.
+
+--- PAGINA 7 ---
+7
+Marco teórico
+Flutter y Dart
+Flutter es un conjunto de herramientas para el desarrollo de interfaces y aplicaciones
+multiplataforma. Dart es el lenguaje utilizado para escribir la lógica y los componentes de estas
+aplicaciones. El SDK de Flutter reúne las herramientas necesarias para trabajar con el proyecto y
+proporciona acceso a las herramientas de Dart. Su instalación se verifica desde la terminal con los
+comandos de versión (Flutter, s. f.-b).
+Android Studio y el SDK de Android
+Android Studio es el entorno de desarrollo integrado para Android. El SDK de Android
+contiene las plataformas y herramientas utilizadas en la compilación y comunicación con
+dispositivos. El IDE y el SDK cumplen funciones distintas: la interfaz del editor no sustituye los
+paquetes que requiere una aplicación para compilarse (Android Developers, s. f.).
+Integración del entorno
+El complemento de Flutter incorpora al IDE funciones de edición, creación de proyectos y
+ejecución. Su instalación no sustituye la descarga del SDK de Flutter (Flutter, s. f.-a,s). La
+variable Path permite localizar los ejecutables desde una terminal. Por su parte, un dispositivo
+virtual Android (A VD) define un entorno de prueba administrado desde Android Studio; también
+puede utilizarse un teléfono compatible.
+Entorno y materiales
+El grupo registró las características del entorno de referencia en la Tabla 1. Las versiones
+y rutas correspondieron al equipo utilizado para las evidencias disponibles; los datos de los otros
+equipos se incorporarán junto con sus capturas.
+
+--- PAGINA 8 ---
+8
+Tabla 1
+Registro del entorno de referencia
+Elemento Dato registrado
+Edición y versión de Windows Windows 11 Home, compilación
+10.0.26300.9550
+Procesador, arquitectura y me-
+moria RAM
+Intel Core i5-12500H; 64 bits; 15.69 GB de
+RAM utilizable
+Espacio disponible en disco Aproximadamente 28 GB en C: al inicio de la
+revisión
+Versión de Git 2.51.1.windows.1
+Versión y canal de Flutter 3.44.5, canal estable
+Versión de Dart 3.12.2
+Versión de Android Studio Compilación AI-
+261.23567.138.2611.15646644
+Ruta del SDK de FlutterC:\Users\jcbla\flutter\flutter
+Ruta del SDK de Android y ni-
+vel de API
+C:\Users\jcbla\AppData\Local\Android
+\Sdk; plataforma Android 36.1; emulador API
+37
+Emulador o dispositivo físico A VD Pixel_8_Pro; identificador
+emulator-5580
+Fecha real de ejecución 5 de octubre de 2026
+Nota.Los datos registrados procedieron del equipo de Julio Blacio.
+Se requiere conexión a Internet para descargar los instaladores y las dependencias. Antes
+de la instalación se deben contrastar los recursos del equipo con los requisitos oficiales de
+Android Studio, en especial si se utilizará un emulador (Android Developers, s. f.).
+Desarrollo del procedimiento
+Revisión del equipo y preparación de Git
+El grupo estableció como primera comprobación el registro del sistema operativo y de los
+recursos disponibles. Para preparar Flutter en Windows, se debe instalar Git para Windows desde
+su distribución oficial y abrir una nueva terminal. El comando siguiente permite registrar la
+versión disponible (Flutter, s. f.-b):
+
+--- PAGINA 9 ---
+9
+git --version
+La Figura 1 mostró las características consultadas y la versión de Git disponible.
+Figura 1
+Revisión del equipo y disponibilidad de Git
+Nota.Equipo de origen:Julio Blacio. Captura real de las características del sistema y de la versión
+de Git.
+Descarga y extracción del SDK de Flutter
+El grupo organizó la instalación manual a partir del paquete estable para Windows. Se
+debe descargar el archivo desde la documentación oficial, extraerlo en una ruta con permisos de
+escritura y evitar directorios protegidos o con espacios. Como ejemplo se propuso
+C:\develop\flutter; esta ruta deberá sustituirse por la utilizada en la práctica (Flutter, s. f.-b).
+Como parte de la revisión conjunta, se identificó la ubicación del SDK disponible y se
+comprobó su estructura, incluida la subcarpetabin. La Figura 2 documentó esta comprobación;
+
+--- PAGINA 10 ---
+10
+la ruta específica se registró en la Tabla 1.
+Figura 2
+Ubicación y estructura del SDK de Flutter
+Nota.Equipo de origen:Julio Blacio. La consulta mostró las carpetas del SDK existente; no
+documentó su descarga original.
+Configuración de la variable Path
+En las variables de entorno del usuario se debe editar Path y añadir la carpetabindel
+SDK, sin eliminar las entradas existentes. Para la ruta de ejemplo corresponde
+C:\develop\flutter\bin. Después se deben cerrar y abrir las terminales y el IDE para aplicar
+el cambio (Flutter, s. f.-b).
+flutter --version
+dart --version
+where.exe flutter
+
+--- PAGINA 11 ---
+11
+Las consultas permiten contrastar la versión y la ubicación del ejecutable. Si aparece más de una
+instalación, se deberá revisar cuál tiene prioridad. Las Figuras 3 y 4 documentaron estas
+comprobaciones.
+Figura 3
+Ruta de Flutter en la variable de entorno Path
+Nota.Equipo de origen:Julio Blacio. Se consultó la entrada de Path y la ubicación del comando
+Flutter en una terminal nueva.
+
+--- PAGINA 12 ---
+12
+Figura 4
+Comprobación de Flutter y Dart desde la terminal
+Nota.Equipo de origen:Julio Blacio. Las consultas mostraron Flutter 3.44.5, Dart 3.12.2 y Git
+2.51.1.windows.1.
+Instalación de Android Studio
+El grupo seleccionó Android Studio como IDE. El procedimiento consiste en descargar el
+instalador para Windows desde Android Developers, ejecutarlo y completar el asistente. En el
+primer inicio se debe finalizar el Setup Wizard y permitir la instalación de los paquetes de SDK
+recomendados. El proceso requiere esperar a que concluyan las descargas antes de continuar
+(Android Developers, s. f.).
+Las Figuras 5 y 6 permitirán distinguir la instalación del programa de su configuración
+inicial. También deberá registrarse la versión del IDE desde la opción de información del
+producto.
+
+--- PAGINA 13 ---
+13
+Figura 5
+Instalación de Android Studio en Windows
+Nota.Equipo de origen:Kerly Chuqui. Captura del asistente de instalación de Android Studio
+para Windows.
+
+--- PAGINA 14 ---
+14
+Figura 6
+Configuración inicial de Android Studio
+Nota.Equipo de origen:Kerly Chuqui. Finalización del Setup Wizard tras la descarga de los
+componentes del SDK de Android.
+Configuración del SDK de Android
+DesdeTools >SDK Manager, oMore Actions >SDK Manageren la pantalla inicial, se
+debe revisar la ubicación del SDK. EnSDK Platformsse selecciona la plataforma requerida por
+Flutter; la guía consultada indica API 36. EnSDK Toolsse revisan Build-Tools, Command-line
+Tools, Platform-Tools, Android Emulator, CMake y NDK (Side by side), y se aplican los cambios
+(Flutter, s. f.-c).
+La Figura 7 mostró el inventario real obtenido consdkmanager –list_installed. Se
+seleccionaron las columnas de paquete y versión para facilitar su lectura. La captura incluyó las
+herramientas y plataformas instaladas, sin representar las pestañas del SDK Manager.
+
+--- PAGINA 15 ---
+15
+Figura 7
+Plataformas y herramientas del SDK de Android
+Nota.Equipo de origen:Julio Blacio. Se mostraron las columnas de paquete y versión del inven-
+tario instalado; se omitieron las columnas de descripción y ubicación.
+Complementos de Flutter y Dart
+EnFile >Settings >Plugins >Marketplacese debe buscar e instalar Flutter, aceptar la
+dependencia de Dart cuando se solicite y reiniciar el IDE. Posteriormente, se debe comprobar que
+ambos complementos estén habilitados (Flutter, s. f.-a).
+Al crear un proyecto Flutter, el campoFlutter SDK pathdebe apuntar a la carpeta raíz
+del SDK, por ejemploC:\develop\flutter. Esta selección es distinta de la entrada de Path, que
+termina enbin. La Figura 8 mostró el complemento de Flutter instalado. El registro de los
+complementos también identificó Dart; su versión se comprobó en el manifiesto instalado, fuera
+de esta captura.
+
+--- PAGINA 16 ---
+16
+Figura 8
+Complemento de Flutter instalado en Android Studio
+Nota.Equipo de origen:Julio Blacio. La captura mostró el complemento de Flutter instalado en
+el IDE. La presencia de Dart se verificó adicionalmente en los archivos del complemento.
+Licencias y diagnóstico del entorno
+El grupo incluyó la revisión de licencias como condición previa a la validación:
+flutter doctor --android-licenses
+flutter doctor
+flutter doctor -v
+Se deben leer los términos y aceptar las licencias aplicables. El diagnóstico deberá revisarse para
+identificar componentes ausentes (Flutter, s. f.-c). La Figura 9 registró las licencias aceptadas y la
+Figura 10 presentó el resumen deflutter doctor. El diagnóstico detallado con-vse conservó
+en el registro de verificación.
+
+--- PAGINA 17 ---
+17
+Figura 9
+Revisión de licencias del SDK de Android
+Nota.Equipo de origen:Julio Blacio. La consulta confirmó que las licencias del SDK de Android
+estaban aceptadas.
+
+--- PAGINA 18 ---
+18
+Figura 10
+Diagnóstico del entorno de desarrollo
+Nota.Equipo de origen:Julio Blacio. La captura mostró el resumen de flutter doctor. La adver-
+tencia de Visual Studio correspondió al desarrollo de aplicaciones para Windows.
+Preparación del dispositivo de prueba
+Para la alternativa virtual, se debe abrirDevice Manager, crear un A VD, seleccionar un
+perfil y una imagen de sistema compatible con la arquitectura del equipo e iniciar el emulador. Se
+debe verificar previamente la aceleración de virtualización. Como alternativa, se puede conectar
+un teléfono con depuración USB habilitada y autorizar el equipo (Flutter, s. f.-c).
+flutter devices
+La Figura 11 relacionó el A VD disponible con el emulador Android detectado y la comprobación
+de aceleración. Se utilizó el dispositivo virtual registrado en la Tabla 1.
+
+--- PAGINA 19 ---
+19
+Figura 11
+Dispositivo Android disponible para las pruebas
+Nota.Equipo de origen:Julio Blacio. Se consultaron el A VD, los dispositivos conectados y la
+disponibilidad de aceleración del emulador.
+Creación y ejecución del proyecto inicial
+En Android Studio se puede seleccionarNew Flutter Project, indicar el SDK y crear el
+proyectoprueba_flutter. Una vez abierto, se debe seleccionar el dispositivo Android y
+ejecutar la aplicación desde el IDE (Flutter, s. f.-a).
+Para dejar una secuencia reproducible por terminal, se propuso la siguiente alternativa en
+una carpeta de trabajo. Se debe emplear una sola de las dos vías de creación para evitar duplicar el
+proyecto:
+flutter create prueba_flutter
+cd prueba_flutter
+flutter run -d ID_ANDROID
+
+--- PAGINA 20 ---
+20
+ID_ANDROIDes un marcador que debe reemplazarse por el identificador real obtenido con
+flutter devices. La primera ejecución puede requerir descargas adicionales. La verificación
+comprende la compilación, la apertura de la aplicación y una interacción visible con su interfaz.
+Durante la práctica grupal se documentó la creación del proyecto
+verificacion_flutter, se compiló el APK conflutter build apk –debugy se instaló en
+el emulador. El inicio de la actividad devolvióStatus: ok, y una interacción cambió el contador
+de 0 a 1. La Figura 13 mostró la aplicación en ese estado. La Figura 12 quedó reservada para el
+proyecto abierto en el IDE; la compilación por terminal no acreditó esa apertura.
+Figura 12
+Proyecto Flutter abierto en Android Studio
+Nota.Equipo de origen:Kerly Chuqui. Vista principal del IDE con el archivo lib/main.dart abierto
+y el dispositivo de prueba seleccionado.
+
+--- PAGINA 21 ---
+21
+Figura 13
+Prueba de ejecución de la aplicación en Android
+Nota.Equipo de origen:Julio Blacio. Captura real de la aplicación en el emulador. El contador
+presentó el valor 1 después de una interacción.
+Resultados y análisis
+El grupo reunió en la Tabla 2 las comprobaciones respaldadas por las capturas y los
+registros disponibles. La evidencia de apertura del proyecto en Android Studio quedó pendiente
+de incorporación.
+
+--- PAGINA 22 ---
+22
+Tabla 2
+Matriz de verificación del entorno
+Comprobación Criterio de aceptación Resultado real
+Flutter y Dart Los comandos devuelven sus versio-
+nes.
+Verificado; Figu-
+ra 4
+Path El ejecutable corresponde al SDK ele-
+gido.
+Verificado; Figu-
+ra 3
+Android Studio El IDE inicia y reconoce el proyecto
+Flutter.
+IDE disponible;
+apertura del pro-
+yecto pendiente
+SDK y licencias Herramientas disponibles y licencias
+aceptadas.
+Verificado; Figu-
+ras 7 y 9
+Diagnóstico Sin errores que impidan desarrollar pa-
+ra Android.
+Android validado;
+advertencia para
+Windows
+Dispositivo Android aparece en la lista de disposi-
+tivos.
+Verificado; Figu-
+ra 11
+Aplicación Compila, se abre y responde a una in-
+teracción.
+APK compilado;
+inicio correcto;
+contador en 1
+El diagnóstico confirmó la disponibilidad de Flutter y de las herramientas Android. Se
+mantuvo una advertencia por componentes de C++ ausentes en Visual Studio, relacionados con
+aplicaciones de escritorio para Windows. La compilación e instalación del APK y la respuesta del
+contador acreditaron el funcionamiento de la aplicación Android. La apertura del proyecto Flutter
+en Android Studio requirió una evidencia adicional; las capturas disponibles no documentaron la
+instalación inicial del IDE.
+
+--- PAGINA 23 ---
+23
+Registro de incidencias
+Tabla 3
+Incidencias y acciones aplicadas
+Mensaje o síntoma Acción aplicada Resultado posterior
+Advertencia de Visual
+Studio en flutter doctor
+Se contrastó su alcance
+con el objetivo de desarro-
+llo para Android.
+La compilación y ejecu-
+ción de la aplicación An-
+droid finalizaron correc-
+tamente.
+Faltaron capturas de
+instalación inicial y del
+proyecto en el IDE.
+Se reservaron las Figuras
+5, 6 y 12 para evidencias
+reales.
+Pendiente de los inte-
+grantes del grupo.
+La advertencia de Visual Studio se registró como una limitación para el desarrollo de
+aplicaciones de escritorio en Windows. No impidió la prueba Android documentada en este
+informe.
+Conclusiones
+1. La revisión documental permitió distinguir el SDK de Flutter, el SDK de Android y Android
+Studio como componentes con funciones complementarias dentro del entorno de desarrollo.
+2. Se estableció una secuencia de verificación que abarca las rutas, los componentes instalados,
+las licencias, el dispositivo y la ejecución de una aplicación. Esta secuencia permite relacionar
+cada configuración con una comprobación concreta.
+3. El grupo comprobó el funcionamiento del entorno Android mediante la compilación del APK,
+su inicio en el emulador y el cambio del contador. Las capturas y los registros de la prueba
+respaldaron esta comprobación. La instalación inicial de Android Studio y la apertura del
+proyecto en el IDE quedaron pendientes de documentación adicional.
+
+--- PAGINA 24 ---
+24
+Recomendaciones
+Registrar las versiones efectivamente utilizadas y conservar capturas legibles de los comandos
+y asistentes.
+Mantener una ubicación identificable para cada SDK y revisar las rutas tras cualquier cambio
+de instalación.
+Incorporar las capturas pendientes y comprobar que las evidencias de cada integrante
+correspondan a su propio entorno.
+
+--- PAGINA 25 ---
+25
+Referencias
+Android Developers. (s. f.).Install Android Studio. Recuperado el 5 de octubre de 2026, de
+https://developer.android.com/studio/install
+Flutter. (s. f.-a).Android Studio and IntelliJ. Recuperado el 5 de octubre de 2026, de
+https://docs.flutter.dev/tools/android-studio
+Flutter. (s. f.-b).Install Flutter manually. Recuperado el 5 de octubre de 2026, de
+https://docs.flutter.dev/install/manual
+Flutter. (s. f.-c).Set up Android development. Recuperado el 5 de octubre de 2026, de
+https://docs.flutter.dev/platform-integration/android/setup
+
+--- PAGINA 26 ---
+26
+Apéndice
+Incorporación de evidencias
+Cada espacio reservado indicó el nombre del archivo PNG correspondiente a su figura. Para
+incorporar una captura en Overleaf, se debe subir el archivo con ese nombre a la misma carpeta de
+main.texy recompilar. También se admitió la subcarpetaFotos_Overleafpara la organización
+local de las imágenes.
+Las Figuras 5, 6 y 12 permanecieron pendientes. Los títulos y el índice identificaron cada
+evidencia, y las notas debajo de las figuras indicaron su equipo de origen; las capturas de terminal
+se conservaron sin encabezados de etapa, nombre del autor o NRC. El índice de figuras incluyó
+los espacios reservados y se actualizó automáticamente al recompilar el documento.

@@ -1,0 +1,430 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[margin=2.54cm,headheight=15pt,headsep=12pt]{geometry}
+\usepackage{mathptmx}
+\usepackage{graphicx,float,array,booktabs,xcolor,enumitem,caption,listings,tikz}
+\usetikzlibrary{calc}
+\usepackage{setspace,fancyhdr,titlesec,tocloft,etoolbox}
+\usepackage[authoryear,round]{natbib}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Instalación y configuración del SDK de Flutter y Android Studio},
+ pdfauthor={Julio Blacio, Kerly Chuqui, Josue Guayasamin}}
+% Portada institucional solicitada; cuerpo, citas, referencias y figuras APA 7.
+% Los índices se añaden por solicitud del informe.
+\doublespacing
+\raggedright
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{0pt}
+\setcounter{secnumdepth}{0}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+\titleformat{\section}{\normalfont\normalsize\bfseries\centering}{}{0pt}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\raggedright}{}{0pt}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\itshape\raggedright}{}{0pt}{}
+\titlespacing*{\section}{0pt}{\baselineskip}{0pt}
+\titlespacing*{\subsection}{0pt}{\baselineskip}{0pt}
+\titlespacing*{\subsubsection}{0pt}{\baselineskip}{0pt}
+\setlist{leftmargin=1.27cm,itemsep=0pt,parsep=0pt,topsep=0pt}
+\captionsetup{font=normalsize,labelfont=bf,textfont=it,labelsep=newline,
+ justification=raggedright,singlelinecheck=false,position=top,skip=8pt}
+\AtBeginEnvironment{tabular}{\singlespacing}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\bibhang}{1.27cm}
+\setlength{\bibsep}{0pt}
+\renewcommand{\bibsection}{\clearpage\phantomsection\section*{Referencias}\addcontentsline{toc}{section}{Referencias}}
+\addto\captionsspanish{%
+ \renewcommand{\contentsname}{Índice de contenidos}%
+ \renewcommand{\listfigurename}{Índice de figuras}%
+ \renewcommand{\listtablename}{Índice de tablas}%
+ \renewcommand{\figurename}{Figura}%
+ \renewcommand{\tablename}{Tabla}}
+\renewcommand{\cfttoctitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftfigpresnum}{Figura\space}
+\renewcommand{\cftfigaftersnum}{.\space}
+\setlength{\cftfigindent}{0pt}
+\setlength{\cftfignumwidth}{2cm}
+\renewcommand{\cfttabpresnum}{Tabla\space}
+\renewcommand{\cfttabaftersnum}{.\space}
+\setlength{\cfttabindent}{0pt}
+\setlength{\cfttabnumwidth}{1.8cm}
+\definecolor{codegray}{rgb}{.96,.96,.96}
+\lstset{backgroundcolor=\color{codegray},basicstyle=\ttfamily\small,
+ frame=single,breaklines=true,columns=fullflexible,keepspaces=true,
+ showstringspaces=false,aboveskip=12pt,belowskip=12pt}
+\newcommand{\autor}{Julio Blacio, Kerly Chuqui y Josue Guayasamin}
+\newcommand{\docente}{Doris Karina Chicaiza Angamarca}
+\newcommand{\fecha}{5 de octubre de 2026}
+\definecolor{negro_suave}{rgb}{.15,.15,.15}
+\newcommand{\logoespe}{\IfFileExists{Logo.png}{\includegraphics[width=6cm]{Logo.png}}{\textbf{\LARGE ESPE}}}
+\newcommand{\logodccoportada}{\IfFileExists{DCCO.png}{\includegraphics[width=2.5cm]{DCCO.png}}{\textbf{DCCO -- ESPE}}}
+% Se admiten las imágenes en la raíz de Overleaf o en Fotos_Overleaf.
+\newcommand{\captura}[1]{\includegraphics[width=\linewidth,height=10.5cm,keepaspectratio]{#1}}
+\newcommand{\recuadro}[1]{\fbox{\begin{minipage}[c][4cm][c]{.94\linewidth}
+ \centering\textbf{Evidencia pendiente}\par
+ Guardar la captura como\par\texttt{\detokenize{#1}}\end{minipage}}}
+\newcommand{\evidencia}[5]{%
+ \begin{figure}[H]
+ \caption{#2}\label{#3}
+ {\centering\IfFileExists{#1}{\captura{#1}}{%
+  \IfFileExists{Fotos_Overleaf/#1}{\captura{Fotos_Overleaf/#1}}{\recuadro{#1}}}\par}
+ \noindent\textit{Nota.} \textbf{Equipo de origen:} #5. #4
+ \end{figure}}
+\newcommand{\pendiente}{\textit{Por completar}}
+
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{singlespace}
+\begin{tikzpicture}[remember picture,overlay]
+ % Portada institucional anterior: marco, logos y bloques centrados.
+ \fill[negro_suave] ($(current page.north west)+(2.25cm,-2.55cm)$) rectangle ($(current page.south west)+(2.8cm,2.1cm)$);
+ \fill[negro_suave] ($(current page.north west)+(3.55cm,-3.95cm)$) rectangle ($(current page.north west)+(18.5cm,-4.2cm)$);
+ \fill[negro_suave] ($(current page.north west)+(3.55cm,-25.6cm)$) rectangle ($(current page.north west)+(18.5cm,-25.85cm)$);
+ \node[inner sep=0pt] at ($(current page.north west)+(6.8cm,-2.65cm)$) {\logoespe};
+ \node[inner sep=0pt] at ($(current page.north west)+(16.5cm,-2.65cm)$) {\logodccoportada};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{15}{19}\selectfont\bfseries]
+ at ($(current page.north west)+(11.025cm,-6cm)$)
+ {Universidad de las Fuerzas Armadas ESPE};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{12}{16}\selectfont]
+ at ($(current page.north west)+(11.025cm,-7cm)$)
+ {Departamento de Ciencias de la Computación};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{20}{25}\selectfont\bfseries]
+ at ($(current page.north west)+(11.025cm,-9.4cm)$)
+ {Desarrollo de Aplicaciones\\Móviles};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{13}{17}\selectfont]
+ at ($(current page.north west)+(11.025cm,-11.4cm)$)
+ {INFORME DE LABORATORIO 1.1};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{22}{28}\selectfont\bfseries]
+ at ($(current page.north west)+(11.025cm,-14.1cm)$)
+ {Instalación y configuración\\del SDK de Flutter\\y Android Studio};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{13}{18}\selectfont]
+ at ($(current page.north west)+(11.025cm,-18.3cm)$)
+ {\textbf{Autores:} \autor\\[.3cm]\textbf{NRC:} 36872};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{13}{18}\selectfont]
+ at ($(current page.north west)+(11.025cm,-21.1cm)$)
+ {\textbf{Docente}\\[.2cm]\docente};
+ \node[align=center,text width=14.3cm,inner sep=0pt,font=\fontsize{12}{16}\selectfont]
+ at ($(current page.north west)+(11.025cm,-23.6cm)$)
+ {\textbf{Fecha:} \fecha};
+\end{tikzpicture}
+\end{singlespace}
+\null\vfill
+\end{titlepage}
+\setcounter{page}{2}
+\tableofcontents
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Índice de figuras}
+\listoffigures
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Índice de tablas}
+\listoftables
+\clearpage
+
+\section*{Instalación y configuración del SDK de Flutter y Android Studio}
+\addcontentsline{toc}{section}{Introducción}
+El desarrollo de aplicaciones móviles requiere un entorno que permita escribir código, resolver dependencias, compilar y ejecutar pruebas en un dispositivo. Julio Blacio, Kerly Chuqui y Josue Guayasamin desarrollaron este trabajo de manera conjunta. El grupo organizó el procedimiento de instalación del SDK de Flutter y de Android Studio en Windows, revisó la configuración de las herramientas de Android y documentó la comprobación del entorno mediante una aplicación inicial.
+
+El informe reunió el procedimiento y los resultados como parte de la práctica grupal. Se documentó una vía principal con Android Studio y una alternativa con Visual Studio Code como editor. Se integraron las evidencias de configuración y ejecución junto con las capturas de los asistentes y de los proyectos. Las veintinueve figuras se organizaron por comprobación y debajo de cada una se identificó el equipo del que procedió la captura.
+
+La importancia de revisar la configuración también encontró respaldo en la literatura científica. Un estudio empírico sobre consultas de Flutter en Stack Overflow identificó la preparación del entorno y la automatización de la compilación como el tema más frecuente y más difícil entre los analizados \citep{alanazi2024}. En este informe se abordó esa preparación mediante el registro de rutas, versiones, dependencias y resultados verificables.
+
+\section{Objetivos de aprendizaje}
+\subsection{Objetivo general}
+Configurar un entorno de desarrollo de aplicaciones móviles con Flutter y Android Studio en Windows, y comprobar su funcionamiento mediante la ejecución de una aplicación en Android.
+\subsection{Objetivos específicos}
+\begin{enumerate}[leftmargin=*]
+\item Identificar la función del SDK de Flutter, el SDK de Android y el entorno de desarrollo integrado.
+\item Establecer la ruta de Flutter en la variable de entorno Path.
+\item Preparar Android Studio, los complementos de Flutter y Dart, y las herramientas del SDK de Android.
+\item Documentar un procedimiento alternativo con Visual Studio Code y la extensión de Flutter.
+\item Verificar licencias, disponibilidad del dispositivo y ejecución de un proyecto inicial.
+\item Documentar cada comprobación con capturas y registrar las incidencias encontradas.
+\end{enumerate}
+
+\section{Marco teórico}
+\subsection{Flutter y Dart}
+Flutter es un conjunto de herramientas para el desarrollo de interfaces y aplicaciones multiplataforma. Dart es el lenguaje utilizado para escribir la lógica y los componentes de estas aplicaciones. El SDK de Flutter reúne las herramientas necesarias para trabajar con el proyecto y proporciona acceso a las herramientas de Dart. Su instalación se verifica desde la terminal con los comandos de versión \citep{fluttermanual}.
+
+\subsection{Android Studio y el SDK de Android}
+Android Studio es el entorno de desarrollo integrado para Android. El SDK de Android contiene las plataformas y herramientas utilizadas en la compilación y comunicación con dispositivos. El IDE y el SDK cumplen funciones distintas: la interfaz del editor no sustituye los paquetes que requiere una aplicación para compilarse \citep{androidinstall}.
+
+\subsection{Integración del entorno}
+El complemento de Flutter incorpora al IDE funciones de edición, creación de proyectos y ejecución. Su instalación no sustituye la descarga del SDK de Flutter \citep{flutteride,flutterandroid}. La variable Path permite localizar los ejecutables desde una terminal. Por su parte, un dispositivo virtual Android (AVD) define un entorno de prueba administrado desde Android Studio; también puede utilizarse un teléfono compatible.
+
+\subsection{Desarrollo multiplataforma y selección de herramientas}
+La literatura distinguió diferentes enfoques de desarrollo multiplataforma, con mecanismos de compilación, ejecución y acceso a funciones del dispositivo distintos \citep{elkassas2017}. Un mapeo sistemático organizó las contribuciones y los desafíos de este campo y señaló necesidades de investigación en pruebas y mantenimiento \citep{zohud2019}. Estas diferencias permiten contextualizar el uso de Flutter: compartir código entre destinos requiere conservar las herramientas y comprobaciones específicas de cada plataforma.
+
+La selección de un framework puede considerar la infraestructura, el proceso de desarrollo, las características de la aplicación y la experiencia del usuario. Un marco de evaluación propuso criterios y ponderaciones adaptables a los requisitos de cada proyecto \citep{rieger2019}. Una revisión posterior complementó esta perspectiva con preferencias de desarrolladores, participación de las comunidades y adopción en el mercado \citep{jost2025}. En la práctica se delimitó el objetivo a preparar Flutter para Android y documentar una alternativa de edición con Visual Studio Code.
+
+\subsection{Pruebas iniciales y evaluación del rendimiento}
+La investigación comparó los enfoques nativos y multiplataforma como alternativas de desarrollo móvil \citep{nawrocki2021}. Un estudio empírico sobre la comunicación entre frameworks y las funciones de Android mostró diferencias de rendimiento según la tecnología y la métrica evaluada \citep{biornhansen2020}. Además, una comparación de Flutter y Xamarin no identificó un resultado uniforme para todos los escenarios de cálculo y operaciones de bases de datos \citep{ucinski2022}. Por ello, la apertura de una aplicación inicial se utilizó como criterio de funcionamiento del entorno; una comparación de rendimiento requeriría cargas de trabajo, métricas y repeticiones previamente definidas.
+
+La literatura sobre pruebas móviles también examinó desafíos de verificación, validación y automatización \citep{muccini2012}. Para esta práctica se estableció una comprobación inicial que comprendió la compilación, la apertura de la aplicación y la respuesta a una interacción. Su alcance se diferenció de una evaluación completa de calidad o de compatibilidad entre dispositivos.
+
+\section{Entorno y materiales}
+El grupo registró las características del entorno de referencia en la Tabla~\ref{tab:entorno}. Las versiones y rutas de esta tabla correspondieron al equipo de Julio Blacio. Las capturas aportadas por Kerly Chuqui complementaron la documentación de la instalación y de la apertura del proyecto en Android Studio. Las evidencias de Josue Guayasamin documentaron el procedimiento alternativo con Visual Studio Code; sus versiones y rutas se registraron en esa sección.
+\begin{table}[H]\centering
+\caption{Registro del entorno de referencia}\label{tab:entorno}
+\begin{tabular}{@{}p{5.2cm}p{8cm}@{}}\toprule
+Elemento & Dato registrado \\\midrule
+Edición y versión de Windows & Windows 11 Home, compilación 10.0.26300.9550 \\
+Procesador, arquitectura y memoria RAM & Intel Core i5-12500H; 64 bits; 15.69 GB de RAM utilizable \\
+Espacio disponible en disco & Aproximadamente 28 GB en C: al inicio de la revisión \\
+Versión de Git & 2.51.1.windows.1 \\
+Versión y canal de Flutter & 3.44.5, canal estable \\
+Versión de Dart & 3.12.2 \\
+Versión de Android Studio & Compilación AI-261.23567.138.2611.15646644 \\
+Ruta del SDK de Flutter & \path{C:\Users\jcbla\flutter\flutter} \\
+Ruta del SDK de Android y nivel de API & \path{C:\Users\jcbla\AppData\Local\Android\Sdk}; plataforma Android 36.1; emulador API 37 \\
+Emulador o dispositivo físico & AVD Pixel\_8\_Pro; identificador \texttt{emulator-5580} \\
+Fecha real de ejecución & 5 de octubre de 2026 \\\bottomrule
+\end{tabular}
+\par\noindent\textit{Nota.} Los datos registrados procedieron del equipo de Julio Blacio.
+\end{table}
+Se requiere conexión a Internet para descargar los instaladores y las dependencias. Antes de la instalación se deben contrastar los recursos del equipo con los requisitos oficiales de Android Studio, en especial si se utilizará un emulador \citep{androidinstall}.
+
+\section{Procedimiento principal con Android Studio}
+\subsection{Revisión del equipo y preparación de Git}
+El grupo estableció como primera comprobación el registro del sistema operativo y de los recursos disponibles. Para preparar Flutter en Windows, se debe instalar Git para Windows desde su distribución oficial y abrir una nueva terminal. El comando siguiente permite registrar la versión disponible \citep{fluttermanual}:
+\begin{lstlisting}
+git --version
+\end{lstlisting}
+La Figura~\ref{fig:previos} mostró las características consultadas y la versión de Git disponible.
+\evidencia{figura01_requisitos.png}{Revisión del equipo y disponibilidad de Git}{fig:previos}{Captura real de las características del sistema y de la versión de Git.}{Julio Blacio}
+
+\subsection{Descarga y extracción del SDK de Flutter}
+El grupo organizó la instalación manual a partir del paquete estable para Windows. Se debe descargar el archivo desde la documentación oficial, extraerlo en una ruta con permisos de escritura y evitar directorios protegidos o con espacios. Como ejemplo se propuso \verb|C:\develop\flutter|; esta ruta deberá sustituirse por la utilizada en la práctica \citep{fluttermanual}.
+
+Como parte de la revisión conjunta, se identificó la ubicación del SDK disponible y se comprobó su estructura, incluida la subcarpeta \texttt{bin}. La Figura~\ref{fig:sdkflutter} documentó esta comprobación; la ruta específica se registró en la Tabla~\ref{tab:entorno}.
+\evidencia{figura02_flutter_sdk.png}{Ubicación y estructura del SDK de Flutter}{fig:sdkflutter}{La consulta mostró las carpetas del SDK existente; no documentó su descarga original.}{Julio Blacio}
+
+\subsection{Configuración de la variable Path}
+En las variables de entorno del usuario se debe editar Path y añadir la carpeta \texttt{bin} del SDK, sin eliminar las entradas existentes. Para la ruta de ejemplo corresponde \verb|C:\develop\flutter\bin|. Después se deben cerrar y abrir las terminales y el IDE para aplicar el cambio \citep{fluttermanual}.
+\begin{lstlisting}
+flutter --version
+dart --version
+where.exe flutter
+\end{lstlisting}
+Las consultas permiten contrastar la versión y la ubicación del ejecutable. Si aparece más de una instalación, se deberá revisar cuál tiene prioridad. Las Figuras~\ref{fig:path} y~\ref{fig:versiones} documentaron estas comprobaciones.
+\evidencia{figura03_path.png}{Ruta de Flutter en la variable de entorno Path}{fig:path}{Se consultó la entrada de Path y la ubicación del comando Flutter en una terminal nueva.}{Julio Blacio}
+\evidencia{figura04_versiones.png}{Comprobación de Flutter y Dart desde la terminal}{fig:versiones}{Las consultas mostraron Flutter 3.44.5, Dart 3.12.2 y Git 2.51.1.windows.1.}{Julio Blacio}
+
+\subsection{Instalación de Android Studio}
+El grupo seleccionó Android Studio como IDE. El procedimiento consiste en descargar el instalador para Windows desde Android Developers, ejecutarlo y completar el asistente. En el primer inicio se debe finalizar el Setup Wizard y permitir la instalación de los paquetes de SDK recomendados. El proceso requiere esperar a que concluyan las descargas antes de continuar \citep{androidinstall}.
+
+Las Figuras~\ref{fig:instalador} y~\ref{fig:asistente} documentaron el asistente de instalación del programa y la finalización de su configuración inicial. La segunda captura mostró la instalación de los componentes del SDK de Android y la disponibilidad del botón de finalización del asistente.
+\evidencia{figura05_android_studio.png}{Instalación de Android Studio en Windows}{fig:instalador}{Captura del asistente de instalación de Android Studio para Windows.}{Kerly Chuqui}
+\evidencia{figura06_setup_wizard.png}{Configuración inicial de Android Studio}{fig:asistente}{Finalización del Setup Wizard tras la descarga e instalación de los componentes del SDK de Android.}{Kerly Chuqui}
+
+\subsection{Configuración del SDK de Android}
+Desde \textbf{Tools > SDK Manager}, o \textbf{More Actions > SDK Manager} en la pantalla inicial, se debe revisar la ubicación del SDK. En \textbf{SDK Platforms} se selecciona la plataforma requerida por Flutter; la guía consultada indica API 36. En \textbf{SDK Tools} se revisan Build-Tools, Command-line Tools, Platform-Tools, Android Emulator, CMake y NDK (Side by side), y se aplican los cambios \citep{flutterandroid}.
+
+La Figura~\ref{fig:androidsdk} mostró el inventario real obtenido con \texttt{sdkmanager --list\_installed}. Se seleccionaron las columnas de paquete y versión para facilitar su lectura. La captura incluyó las herramientas y plataformas instaladas, sin representar las pestañas del SDK Manager.
+\evidencia{figura07_android_sdk.png}{Plataformas y herramientas del SDK de Android}{fig:androidsdk}{Se mostraron las columnas de paquete y versión del inventario instalado; se omitieron las columnas de descripción y ubicación.}{Julio Blacio}
+
+\subsection{Complementos de Flutter y Dart}
+En \textbf{File > Settings > Plugins > Marketplace} se debe buscar e instalar Flutter, aceptar la dependencia de Dart cuando se solicite y reiniciar el IDE. Posteriormente, se debe comprobar que ambos complementos estén habilitados \citep{flutteride}.
+
+Al crear un proyecto Flutter, el campo \textbf{Flutter SDK path} debe apuntar a la carpeta raíz del SDK, por ejemplo \verb|C:\develop\flutter|. Esta selección es distinta de la entrada de Path, que termina en \texttt{bin}. La Figura~\ref{fig:plugins} mostró el complemento de Flutter instalado. El registro de los complementos también identificó Dart; su versión se comprobó en el manifiesto instalado, fuera de esta captura.
+\evidencia{figura08_plugins.png}{Complemento de Flutter instalado en Android Studio}{fig:plugins}{La captura mostró el complemento de Flutter instalado en el IDE. La presencia de Dart se verificó adicionalmente en los archivos del complemento.}{Julio Blacio}
+
+\subsection{Licencias y diagnóstico del entorno}
+El grupo incluyó la revisión de licencias como condición previa a la validación:
+\begin{lstlisting}
+flutter doctor --android-licenses
+flutter doctor
+flutter doctor -v
+\end{lstlisting}
+Se deben leer los términos y aceptar las licencias aplicables. El diagnóstico deberá revisarse para identificar componentes ausentes \citep{flutterandroid}. La Figura~\ref{fig:licencias} registró las licencias aceptadas y la Figura~\ref{fig:doctor} presentó el resumen de \texttt{flutter doctor}. El diagnóstico detallado con \texttt{-v} se conservó en el registro de verificación.
+\evidencia{figura09_licencias.png}{Revisión de licencias del SDK de Android}{fig:licencias}{La consulta confirmó que las licencias del SDK de Android estaban aceptadas.}{Julio Blacio}
+\evidencia{figura10_doctor.png}{Diagnóstico del entorno de desarrollo}{fig:doctor}{La captura mostró el resumen de flutter doctor. La advertencia de Visual Studio correspondió al desarrollo de aplicaciones para Windows.}{Julio Blacio}
+
+\subsection{Preparación del dispositivo de prueba}
+Para la alternativa virtual, se debe abrir \textbf{Device Manager}, crear un AVD, seleccionar un perfil y una imagen de sistema compatible con la arquitectura del equipo e iniciar el emulador. Se debe verificar previamente la aceleración de virtualización. Como alternativa, se puede conectar un teléfono con depuración USB habilitada y autorizar el equipo \citep{flutterandroid}.
+\begin{lstlisting}
+flutter devices
+\end{lstlisting}
+La Figura~\ref{fig:dispositivo} relacionó el AVD disponible con el emulador Android detectado y la comprobación de aceleración. Se utilizó el dispositivo virtual registrado en la Tabla~\ref{tab:entorno}.
+\evidencia{figura11_dispositivo.png}{Dispositivo Android disponible para las pruebas}{fig:dispositivo}{Se consultaron el AVD, los dispositivos conectados y la disponibilidad de aceleración del emulador.}{Julio Blacio}
+
+\subsection{Creación y ejecución del proyecto inicial}
+En Android Studio se puede seleccionar \textbf{New Flutter Project}, indicar el SDK y crear el proyecto \texttt{prueba\_flutter}. Una vez abierto, se debe seleccionar el dispositivo Android y ejecutar la aplicación desde el IDE \citep{flutteride}.
+
+Para dejar una secuencia reproducible por terminal, se propuso la siguiente alternativa en una carpeta de trabajo. Se debe emplear una sola de las dos vías de creación para evitar duplicar el proyecto:
+\begin{lstlisting}
+flutter create prueba_flutter
+cd prueba_flutter
+flutter run -d ID_ANDROID
+\end{lstlisting}
+\texttt{ID\_ANDROID} es un marcador que debe reemplazarse por el identificador real obtenido con \texttt{flutter devices}. La primera ejecución puede requerir descargas adicionales. La verificación comprende la compilación, la apertura de la aplicación y una interacción visible con su interfaz.
+
+Durante la práctica grupal se documentó la creación del proyecto \texttt{verificacion\_flutter}, se compiló el APK con \texttt{flutter build apk --debug} y se instaló en el emulador. El inicio de la actividad devolvió \texttt{Status: ok}, y una interacción cambió el contador de 0 a 1. La Figura~\ref{fig:ejecucion} mostró la aplicación en ese estado. Además, la Figura~\ref{fig:proyecto} documentó el proyecto \texttt{prueba\_flutter} abierto en Android Studio, con el archivo \texttt{lib/main.dart} y el emulador Android visibles.
+\evidencia{figura12_proyecto.png}{Proyecto Flutter abierto en Android Studio}{fig:proyecto}{Vista del proyecto Flutter en el IDE con el archivo lib/main.dart abierto y el emulador Android visible.}{Kerly Chuqui}
+\evidencia{figura13_ejecucion.png}{Prueba de ejecución de la aplicación en Android}{fig:ejecucion}{Captura real de la aplicación en el emulador. El contador presentó el valor 1 después de una interacción.}{Julio Blacio}
+
+\section{Procedimiento alternativo con Visual Studio Code}
+En esta alternativa se utilizó Visual Studio Code para editar el proyecto y trabajar con la extensión de Flutter. Android Studio se mantuvo como herramienta para preparar el SDK de Android y los dispositivos virtuales. Las Figuras~\ref{fig:altgit} a~\ref{fig:altweb} procedieron del equipo de Josue y documentaron la secuencia de configuración y su prueba final.
+
+\subsection{Verificación de Git y ubicación del SDK de Flutter}
+Se inició con la consulta \texttt{git --version}. La salida registró Git 2.48.1.windows.1, como se mostró en la Figura~\ref{fig:altgit}. Posteriormente se seleccionó el paquete estable de Flutter para Windows, versión 3.47.6, y se documentó la carpeta extraída dentro de \path{C:\develop}. Las Figuras~\ref{fig:altdescarga} y~\ref{fig:altcarpeta} mostraron el paquete y su ubicación.
+\evidencia{Evidencias_Josue/josue01.png}{Verificación de Git en el procedimiento alternativo}{fig:altgit}{La consulta git --version devolvió la versión 2.48.1.windows.1.}{Josue Guayasamin}
+\evidencia{Evidencias_Josue/josue02.png}{Selección del paquete estable de Flutter para Windows}{fig:altdescarga}{La captura mostró el paquete flutter\_windows\_3.47.6-stable.zip en la página de descarga.}{Josue Guayasamin}
+\evidencia{Evidencias_Josue/josue03.png}{Carpeta del SDK extraído en el procedimiento alternativo}{fig:altcarpeta}{Se mostró la carpeta del paquete Flutter 3.47.6 dentro de C:\textbackslash develop.}{Josue Guayasamin}
+
+\subsection{Configuración de Path}
+Se añadió a Path la carpeta \texttt{bin} del SDK. La Figura~\ref{fig:altpath} permitió identificar la entrada \path{C:\develop\flutter_windows_3.47.6-stable\flutter\bin}. Esta fue la ruta concreta de la evidencia; la ubicación abreviada \path{C:\develop\flutter} indicada como ejemplo en el documento de origen debía ajustarse a la carpeta efectivamente utilizada.
+\evidencia{Evidencias_Josue/josue04.png}{Entrada de Flutter en Path para el procedimiento alternativo}{fig:altpath}{La variable del usuario incluyó la carpeta bin del SDK de Flutter 3.47.6.}{Josue Guayasamin}
+
+\subsection{Preparación de Android Studio y de las herramientas Android}
+Se documentó la descarga de Android Studio Rabbit 1, versión 2026.2.1, y la apertura del instalador. Después se registró la descarga de los componentes del asistente inicial. Estas acciones se mostraron en las Figuras~\ref{fig:altstudiodescarga},~\ref{fig:altstudioinstalador} y~\ref{fig:altstudiowizard}.
+\evidencia{Evidencias_Josue/josue05.png}{Descarga de Android Studio para preparar las herramientas Android}{fig:altstudiodescarga}{La página mostró Android Studio Rabbit 1, versión 2026.2.1.}{Josue Guayasamin}
+\evidencia{Evidencias_Josue/josue06.png}{Asistente de instalación de Android Studio en la alternativa}{fig:altstudioinstalador}{Se documentó la apertura del asistente de instalación para Windows.}{Josue Guayasamin}
+\evidencia{Evidencias_Josue/josue07.png}{Descarga de componentes durante la configuración inicial}{fig:altstudiowizard}{La captura mostró la descarga del componente Android Emulator en curso.}{Josue Guayasamin}
+
+Desde SDK Manager se seleccionaron las herramientas de línea de comandos de Android. La Figura~\ref{fig:altcommandline} mostró la confirmación para instalar Command-line Tools 23.0, la presencia de Platform-Tools 37.0.1 y la ruta \path{C:\Users\NW\AppData\Local\Android\Sdk}. El diagnóstico posterior permitió comprobar la disponibilidad del conjunto de herramientas Android.
+\evidencia{Evidencias_Josue/josue08.png}{Selección de Android SDK Command-line Tools}{fig:altcommandline}{Se mostró el diálogo de confirmación de instalación de las herramientas de línea de comandos y la ubicación del SDK.}{Josue Guayasamin}
+
+\subsection{Preparación del dispositivo virtual y de la aceleración}
+Device Manager presentó inicialmente el mensaje de que Windows Hypervisor Platform no estaba habilitado. Se documentó el diálogo para activar esta función, que indicó la necesidad de reiniciar el sistema para aplicar el cambio. La revisión de la aceleración fue coherente con el procedimiento descrito por Android Developers \citep{androidaccel}. La Figura~\ref{fig:althypervisor} registró el mensaje y las opciones disponibles; la captura por sí sola no confirmó el reinicio.
+\evidencia{Evidencias_Josue/josue09.png}{Aviso de Windows Hypervisor Platform y opciones de activación}{fig:althypervisor}{El diálogo indicó que la activación del hipervisor requería un reinicio del sistema.}{Josue Guayasamin}
+
+También se seleccionó el perfil Pixel 10 Pro con una imagen de sistema x86\_64, Google Play y API 37.2. Se registró su configuración y la descarga de la imagen de sistema en las Figuras~\ref{fig:altavd} y~\ref{fig:altimagenavd}.
+\evidencia{Evidencias_Josue/josue10.png}{Configuración del dispositivo virtual Pixel 10 Pro}{fig:altavd}{La configuración mostró Android 17, API 37.2 y una imagen de sistema Google Play x86\_64.}{Josue Guayasamin}
+\evidencia{Evidencias_Josue/josue11.png}{Descarga de la imagen de sistema del dispositivo virtual}{fig:altimagenavd}{Se documentó el proceso de descarga y preparación de la imagen de sistema seleccionada.}{Josue Guayasamin}
+
+\subsection{Extensión de Flutter y diagnóstico desde Visual Studio Code}
+En Visual Studio Code se buscó la extensión Flutter publicada por Dart Code y se inició su instalación. Esta extensión incorpora la dependencia de Dart según la documentación oficial \citep{fluttervscode}. La Figura~\ref{fig:altextension} mostró el estado de instalación; su integración posterior se evidenció mediante la creación del proyecto desde el editor.
+\evidencia{Evidencias_Josue/josue12.png}{Instalación de la extensión de Flutter en Visual Studio Code}{fig:altextension}{La captura mostró la extensión de Dart Code durante su instalación y la indicación de su dependencia de Dart.}{Josue Guayasamin}
+
+Se ejecutó \texttt{flutter doctor} desde la terminal integrada. La Figura~\ref{fig:altdoctor} registró Flutter 3.47.6 en el canal estable, Android SDK 36.0.0, tres dispositivos disponibles y el mensaje \texttt{No issues found!}. Estos resultados correspondieron al entorno alternativo y se conservaron diferenciados de los valores de la Tabla~\ref{tab:entorno}.
+\evidencia{Evidencias_Josue/josue13.png}{Diagnóstico del entorno alternativo desde Visual Studio Code}{fig:altdoctor}{La salida de flutter doctor finalizó con No issues found! y mostró las herramientas Android disponibles.}{Josue Guayasamin}
+
+\subsection{Creación del proyecto y prueba de ejecución}
+La vía de creación desde el editor consiste en abrir la paleta de comandos con \texttt{Ctrl + Shift + P}, seleccionar \textbf{Flutter: New Project}, elegir \textbf{Application} e indicar la ubicación y el nombre. Para ejecutar el proyecto se selecciona el destino de prueba y se utiliza \textbf{Run > Start Debugging} o \texttt{F5} \citep{fluttervscode}.
+
+En las evidencias se registró el proyecto \texttt{flutter\_prueba\_vs}. La estructura del proyecto y el panel de salida mostraron la creación de 131 archivos, la resolución de dependencias y el código de salida 0, como se presentó en las Figuras~\ref{fig:altproyecto} y~\ref{fig:altcreacion}.
+\evidencia{Evidencias_Josue/josue14.png}{Estructura del proyecto Flutter en Visual Studio Code}{fig:altproyecto}{Se mostró el proyecto flutter\_prueba\_vs y su carpeta android.}{Josue Guayasamin}
+\evidencia{Evidencias_Josue/josue15.png}{Resultado de la creación del proyecto desde Visual Studio Code}{fig:altcreacion}{El panel de salida indicó la creación del proyecto y finalizó con código de salida 0. También mostró una espera de conexión del emulador.}{Josue Guayasamin}
+
+La prueba final presentada en el documento se ejecutó en Chrome y mostró la aplicación inicial de Flutter con el contador en 5. La Figura~\ref{fig:altweb} acreditó la ejecución e interacción en el destino web. Las capturas del AVD y el diagnóstico documentaron la preparación del entorno Android; la imagen final correspondió a la ejecución en el navegador.
+\evidencia{Evidencias_Josue/josue16.png}{Ejecución de la aplicación Flutter en Chrome desde el entorno alternativo}{fig:altweb}{La aplicación se mostró en una dirección localhost del navegador y presentó el contador en 5.}{Josue Guayasamin}
+
+\section{Resultados y análisis}
+El grupo reunió en la Tabla~\ref{tab:resultados} las comprobaciones del procedimiento principal respaldadas por las capturas y los registros disponibles. Las evidencias incluyeron la instalación y configuración inicial de Android Studio, la apertura de un proyecto Flutter en el IDE y la ejecución de una aplicación en Android. El procedimiento alternativo añadió la configuración del editor Visual Studio Code, el diagnóstico de otro entorno y una prueba de ejecución web.
+\begin{table}[H]\centering
+\caption{Matriz de verificación del entorno}\label{tab:resultados}
+\begin{tabular}{@{}p{3cm}p{6.6cm}p{3.2cm}@{}}\toprule
+Comprobación & Criterio de aceptación & Resultado real \\\midrule
+Flutter y Dart & Los comandos devuelven sus versiones. & Verificado; Figura~\ref{fig:versiones} \\
+Path & El ejecutable corresponde al SDK elegido. & Verificado; Figura~\ref{fig:path} \\
+Android Studio & El IDE inicia y reconoce el proyecto Flutter. & Verificado; Figura~\ref{fig:proyecto} \\
+SDK y licencias & Herramientas disponibles y licencias aceptadas. & Verificado; Figuras~\ref{fig:androidsdk} y~\ref{fig:licencias} \\
+Diagnóstico & Sin errores que impidan desarrollar para Android. & Android validado; advertencia para Windows \\
+Dispositivo & Android aparece en la lista de dispositivos. & Verificado; Figura~\ref{fig:dispositivo} \\
+Aplicación & Compila, se abre y responde a una interacción. & APK compilado; inicio correcto; contador en 1 \\\bottomrule
+\end{tabular}\end{table}
+El diagnóstico confirmó la disponibilidad de Flutter y de las herramientas Android. Se mantuvo una advertencia por componentes de C++ ausentes en Visual Studio, relacionados con aplicaciones de escritorio para Windows. La compilación e instalación del APK y la respuesta del contador acreditaron el funcionamiento de la aplicación Android. Las Figuras~\ref{fig:instalador},~\ref{fig:asistente} y~\ref{fig:proyecto} complementaron estos resultados con la documentación del instalador, la configuración inicial y la apertura de un proyecto Flutter en Android Studio.
+
+En la alternativa, la Figura~\ref{fig:altdoctor} mostró un diagnóstico sin incidencias, mientras que la Figura~\ref{fig:altcreacion} acreditó la creación del proyecto con código de salida 0. La Figura~\ref{fig:altweb} documentó la ejecución en Chrome y una interacción reflejada en el contador. Estos resultados correspondieron al equipo de Josue Guayasamin. La ejecución Android se respaldó con las evidencias del procedimiento principal; la prueba final de la alternativa se realizó en el destino web.
+
+\subsection{Alcance de la verificación}
+La ejecución del contador permitió comprobar que el entorno produjo una aplicación ejecutable y que su interfaz respondió a la interacción registrada. La prueba se limitó a los destinos documentados: Android en el procedimiento principal y Chrome en el alternativo. No se midieron tiempos de ejecución, consumo de memoria ni comportamiento en otros dispositivos. En consecuencia, los resultados se interpretaron como una verificación inicial de instalación y configuración. La evaluación de rendimiento y las pruebas móviles más amplias descritas en la literatura exigirían un diseño adicional \citep{biornhansen2020,muccini2012,ucinski2022}.
+
+\subsection{Registro de incidencias}
+\begin{table}[H]\centering
+\caption{Incidencias y acciones aplicadas}\label{tab:incidencias}
+\begin{tabular}{@{}p{4cm}p{4.5cm}p{4.3cm}@{}}\toprule
+Mensaje o síntoma & Acción aplicada & Resultado posterior \\\midrule
+Advertencia de Visual Studio en flutter doctor & Se contrastó su alcance con el objetivo de desarrollo para Android. & La compilación y ejecución de la aplicación Android finalizaron correctamente. \\
+Aviso de Windows Hypervisor Platform en el entorno alternativo & Se documentó el diálogo de activación y su requisito de reinicio. & El diagnóstico final no mostró incidencias; la captura de ejecución correspondió a Chrome. \\
+\bottomrule
+\end{tabular}\end{table}
+La advertencia de Visual Studio se registró como una limitación para el desarrollo de aplicaciones de escritorio en Windows. No impidió la prueba Android documentada en este informe.
+
+\section{Conclusiones}
+\begin{enumerate}[leftmargin=*]
+\item La revisión documental permitió distinguir el SDK de Flutter, el SDK de Android y Android Studio como componentes con funciones complementarias dentro del entorno de desarrollo.
+\item Se estableció una secuencia de verificación que abarca las rutas, los componentes instalados, las licencias, el dispositivo y la ejecución de una aplicación. Esta secuencia permite relacionar cada configuración con una comprobación concreta.
+\item El grupo comprobó el funcionamiento del entorno Android mediante la compilación del APK, su inicio en el emulador y el cambio del contador. Las capturas y los registros de la prueba respaldaron esta comprobación. Las evidencias de los asistentes de instalación y del proyecto abierto en Android Studio completaron la documentación del procedimiento.
+\item El procedimiento alternativo permitió documentar el uso de Visual Studio Code para trabajar con Flutter, junto con las herramientas Android preparadas desde Android Studio. Sus evidencias confirmaron la creación del proyecto y su ejecución web con respuesta a una interacción.
+\end{enumerate}
+
+\section{Recomendaciones}
+\begin{itemize}[leftmargin=*]
+\item Registrar las versiones efectivamente utilizadas y conservar capturas legibles de los comandos y asistentes.
+\item Mantener una ubicación identificable para cada SDK y revisar las rutas tras cualquier cambio de instalación.
+\item Conservar la identificación del equipo de origen de cada captura y contrastar las versiones y rutas antes de reproducir el procedimiento en otro entorno.
+\item Seleccionar explícitamente el destino de ejecución en el editor y diferenciar las pruebas Android de las pruebas web al documentar los resultados.
+\end{itemize}
+
+\begin{thebibliography}{15}
+\bibitem[Alanazi \& Alfayez(2024)]{alanazi2024}
+Alanazi, A., \& Alfayez, R. (2024). What is discussed about Flutter on Stack Overflow (SO) question-and-answer (Q\&A) website: An empirical study. \textit{Journal of Systems and Software, 215}, Artículo 112089. \url{https://doi.org/10.1016/j.jss.2024.112089}
+
+\bibitem[Android Developers(s. f.)]{androidinstall}
+Android Developers. (s. f.). \textit{Install Android Studio}. Recuperado el 5 de octubre de 2026, de \url{https://developer.android.com/studio/install}
+
+\bibitem[Android Developers(2026)]{androidaccel}
+Android Developers. (2026, 6 de marzo). \textit{Configure hardware acceleration for the Android Emulator}. Recuperado el 5 de octubre de 2026, de \url{https://developer.android.com/studio/run/emulator-acceleration}
+
+\bibitem[Bi{\o}rn-Hansen et~al.(2020)]{biornhansen2020}
+Bi{\o}rn-Hansen, A., Rieger, C., Gr{\o}nli, T.-M., Majchrzak, T. A., \& Ghinea, G. (2020). An empirical investigation of performance overhead in cross-platform mobile development frameworks. \textit{Empirical Software Engineering, 25}(4), 2997--3040. \url{https://doi.org/10.1007/s10664-020-09827-6}
+
+\bibitem[El-Kassas et~al.(2017)]{elkassas2017}
+El-Kassas, W. S., Abdullah, B. A., Yousef, A. H., \& Wahba, A. M. (2017). Taxonomy of cross-platform mobile applications development approaches. \textit{Ain Shams Engineering Journal, 8}(2), 163--190. \url{https://doi.org/10.1016/j.asej.2015.08.004}
+
+\bibitem[Flutter(s. f.-a)]{flutteride}
+Flutter. (s. f.-a). \textit{Android Studio and IntelliJ}. Recuperado el 5 de octubre de 2026, de \url{https://docs.flutter.dev/tools/android-studio}
+
+\bibitem[Flutter(s. f.-b)]{fluttermanual}
+Flutter. (s. f.-b). \textit{Install Flutter manually}. Recuperado el 5 de octubre de 2026, de \url{https://docs.flutter.dev/install/manual}
+
+\bibitem[Flutter(s. f.-c)]{flutterandroid}
+Flutter. (s. f.-c). \textit{Set up Android development}. Recuperado el 5 de octubre de 2026, de \url{https://docs.flutter.dev/platform-integration/android/setup}
+
+\bibitem[Flutter(2026)]{fluttervscode}
+Flutter. (2026, 31 de julio). \textit{Visual Studio Code}. Recuperado el 5 de octubre de 2026, de \url{https://docs.flutter.dev/tools/vs-code}
+
+\bibitem[Jo\v{s}t \& Taneski(2025)]{jost2025}
+Jo\v{s}t, G., \& Taneski, V. (2025). State-of-the-art cross-platform mobile application development frameworks: A comparative study of market and developer trends. \textit{Informatics, 12}(2), Artículo 45. \url{https://doi.org/10.3390/informatics12020045}
+
+\bibitem[Muccini et~al.(2012)]{muccini2012}
+Muccini, H., Di Francesco, A., \& Esposito, P. (2012). Software testing of mobile applications: Challenges and future research directions. En \textit{2012 7th International Workshop on Automation of Software Test (AST)} (pp. 29--35). IEEE. \url{https://doi.org/10.1109/IWAST.2012.6228987}
+
+\bibitem[Nawrocki et~al.(2021)]{nawrocki2021}
+Nawrocki, P., Wrona, K., Marczak, M., \& \'{S}nie\.{z}y\'{n}ski, B. (2021). A comparison of native and cross-platform frameworks for mobile applications. \textit{Computer, 54}(3), 18--27. \url{https://doi.org/10.1109/MC.2020.2983893}
+
+\bibitem[Rieger \& Majchrzak(2019)]{rieger2019}
+Rieger, C., \& Majchrzak, T. A. (2019). Towards the definitive evaluation framework for cross-platform app development approaches. \textit{Journal of Systems and Software, 153}, 175--199. \url{https://doi.org/10.1016/j.jss.2019.04.001}
+
+\bibitem[Uci\'{n}ski \& Dzie\'{n}kowski(2022)]{ucinski2022}
+Uci\'{n}ski, M., \& Dzie\'{n}kowski, M. (2022). A comparative analysis of performance of Flutter and Xamarin development frameworks. \textit{Journal of Computer Sciences Institute, 25}, 366--370. \url{https://doi.org/10.35784/jcsi.3025}
+
+\bibitem[Zohud \& Zein(2019)]{zohud2019}
+Zohud, T., \& Zein, S. (2019). A systematic mapping study of cross-platform mobile apps. \textit{Journal of Computer Science, 15}(4), 519--536. \url{https://doi.org/10.3844/jcssp.2019.519.536}
+\end{thebibliography}
+
+\clearpage
+\appendix
+\section{Apéndice}
+\begin{center}\textbf{Registro y procedencia de las evidencias}\end{center}
+Se incorporaron veintinueve figuras que documentaron la preparación y verificación de los entornos de desarrollo. Dentro del procedimiento principal, las Figuras~\ref{fig:instalador},~\ref{fig:asistente} y~\ref{fig:proyecto} procedieron del equipo de Kerly Chuqui y mostraron el asistente de instalación de Android Studio, la finalización de la configuración inicial y el proyecto Flutter abierto en el IDE. Las otras diez figuras de ese procedimiento procedieron del equipo de Julio Blacio y documentaron las características del equipo, la ubicación y configuración de los SDK, los complementos, las licencias, el diagnóstico, el dispositivo de prueba y la ejecución de la aplicación.
+
+Las dieciséis figuras del procedimiento alternativo, desde la Figura~\ref{fig:altgit} hasta la Figura~\ref{fig:altweb}, procedieron del equipo de Josue Guayasamin. Se extrajeron del documento \textit{Flutter} y se conservaron en su orden de aparición, con sus dimensiones originales. Estas evidencias documentaron la preparación del SDK, las herramientas Android, la configuración de Visual Studio Code, la creación del proyecto y su ejecución en Chrome.
+
+Los títulos y el índice identificaron cada evidencia, y las notas debajo de las figuras indicaron su equipo de origen. Las capturas de terminal se conservaron sin encabezados de etapa, nombre del autor o NRC. Los archivos PNG se conservaron con los nombres asociados a cada figura para mantener la correspondencia entre las imágenes, las referencias del texto y el índice de figuras.
+\end{document}

@@ -1,0 +1,17 @@
+﻿orden,archivo,original_docx,equipo_origen,ancho,alto,contexto_docx,figura_informe
+1,josue01.png,word/media/image4.png,Josue Guayasamin,1037,317,1.- Verificar git,14
+2,josue02.png,word/media/image11.png,Josue Guayasamin,1097,167,2.- Descargar y ubicar el SDK de Flutter,15
+3,josue03.png,word/media/image14.png,Josue Guayasamin,1073,317,Ruta: C:\develop\flutter.,16
+4,josue04.png,word/media/image13.png,Josue Guayasamin,642,657,3.- Configurar las Variables de Entorno,17
+5,josue05.png,word/media/image8.png,Josue Guayasamin,1232,150,4.- Instalar Android Studio y herramientas de línea de comandos,18
+6,josue06.png,word/media/image3.png,Josue Guayasamin,667,551,4.- Instalar Android Studio y herramientas de línea de comandos,19
+7,josue07.png,word/media/image7.png,Josue Guayasamin,1061,768,4.- Instalar Android Studio y herramientas de línea de comandos,20
+8,josue08.png,word/media/image16.png,Josue Guayasamin,1278,787,4.- Instalar Android Studio y herramientas de línea de comandos,21
+9,josue09.png,word/media/image10.png,Josue Guayasamin,967,563,Esto es crucial para que VS Code pueda comunicarse con Android.,22
+10,josue10.png,word/media/image5.png,Josue Guayasamin,1122,867,Activar el hipervisor,23
+11,josue11.png,word/media/image6.png,Josue Guayasamin,1140,747,Activar el hipervisor,24
+12,josue12.png,word/media/image12.png,Josue Guayasamin,1408,720,5.- Configurar VS code como IDE e instalar la extensión de Flutter,25
+13,josue13.png,word/media/image1.png,Josue Guayasamin,1322,391,6.- Verificación final del sistema,26
+14,josue14.png,word/media/image15.png,Josue Guayasamin,792,420,Creación y ejecución del primer proyecto,27
+15,josue15.png,word/media/image2.png,Josue Guayasamin,1360,721,Creación y ejecución del primer proyecto,28
+16,josue16.png,word/media/image9.png,Josue Guayasamin,1763,950,Creación y ejecución del primer proyecto,29

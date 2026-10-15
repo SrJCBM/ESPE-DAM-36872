@@ -1,0 +1,13 @@
+Metadatos de complementos instalados en Android Studio
+
+ID      : Dart
+Nombre  : Dart
+Version : 507.0.0
+Archivo : C:\Users\jcbla\AppData\Roaming\Google\AndroidStudio2026.1.1\plugins\Dart\lib\Dart-507.0.0.jar
+
+
+ID      : io.flutter
+Nombre  : Flutter
+Version : 94.0.0
+Archivo : C:\Users\jcbla\AppData\Roaming\Google\AndroidStudio2026.1.1\plugins\flutter-intellij\lib\flutter-intellij-94.0.0.jar
+

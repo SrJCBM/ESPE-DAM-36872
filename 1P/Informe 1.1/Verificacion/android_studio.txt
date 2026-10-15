@@ -1,0 +1,5 @@
+
+name        : Android Studio
+version     : AI-261.23567.138.2611.15646644
+buildNumber : 261.23567.138.2611.15646644
+

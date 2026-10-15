@@ -1,0 +1,12 @@
+Performing Streamed Install
+Success
+Starting: Intent { cmp=ec.edu.espe.verificacion_flutter/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: ec.edu.espe.verificacion_flutter/.MainActivity
+TotalTime: 15844
+WaitTime: 15895
+Complete
+
+Contador_observado : 1
+
