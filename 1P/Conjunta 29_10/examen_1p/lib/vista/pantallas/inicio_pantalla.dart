@@ -29,7 +29,7 @@ class InicioPantalla extends StatelessWidget {
             SizedBox(height: 10),
             Text(
               'Ingresa el sueldo base y las ventas del mes '
-                  'para calcular el sueldo final.',
+                  'para poder calcular el sueldo final',
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),

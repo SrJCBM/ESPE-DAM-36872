@@ -14,7 +14,6 @@ class CampoNumero extends StatelessWidget {
       decoration: InputDecoration(
         labelText: etiqueta,
         prefixText: '\$ ',
-        border: OutlineInputBorder(),
       ),
     );
   }
