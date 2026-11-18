@@ -12,7 +12,11 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
 ```
 
-Abre [Swagger UI](http://127.0.0.1:8000/docs) para probar las rutas o [OpenAPI](http://127.0.0.1:8000/openapi.json) para ver el contrato. La base se crea al iniciar en `data/control_academico.sqlite3`. Puedes elegir otro archivo mediante la variable de entorno `CONTROL_ACADEMICO_DB`.
+Abre [Swagger UI](http://127.0.0.1:8000/docs) para probar las rutas o [OpenAPI](http://127.0.0.1:8000/openapi.json) para ver el contrato. Cuando no se configura PostgreSQL, SQLite se crea al iniciar en `data/control_academico.sqlite3`. Puedes elegir otro archivo mediante `CONTROL_ACADEMICO_DB`.
+
+Al ejecutar `neon deploy` desde esta carpeta, la CLI descarga las variables de la rama vinculada en `.env.local`, o en `.env` si ya existe. FastAPI lee ese archivo al iniciar localmente. `DATABASE_URL` se usa en las solicitudes y `DATABASE_URL_UNPOOLED` para inicializar las tablas. Las variables del proceso tienen prioridad. Los archivos con credenciales están excluidos de Git.
+
+Si Node.js está instalado, `npm run build` comprueba que el código Python de la API compila. Ejecuta el comando con el entorno virtual activado.
 
 ## Probar el flujo desde Swagger
 
@@ -35,8 +39,8 @@ Render tomará el código de la rama `main` del repositorio de GitHub. Antes de 
 ### 2. Crear la base en Neon
 
 1. Abre la [consola de Neon](https://console.neon.tech/) y crea un proyecto en el plan **Free**.
-2. En **Connect**, selecciona la rama, la base y el rol del proyecto. Desactiva **Connection pooling** para copiar la URL directa, que también se usará para crear el esquema inicial.
-3. Guarda de forma privada la URL completa que empieza por `postgresql://`. Incluye la contraseña y los parámetros TLS. Pégala únicamente en la variable `DATABASE_URL` de Render. [Conexión a Neon](https://neon.com/docs/connect/connect-from-any-app)
+2. Usa las variables que descargó `neon deploy`. También puedes obtener las dos URL en **Connect** cambiando el selector **Connection pooling**. Conserva completos los parámetros TLS.
+3. En Render, pega la URL con pooling en `DATABASE_URL` y la directa en `DATABASE_URL_UNPOOLED`. Ambas URL contienen contraseñas. [Conexión a Neon](https://neon.com/docs/connect/connect-from-any-app)
 
 ### 3. Crear el servicio de FastAPI en Render
 
@@ -51,9 +55,10 @@ En el [panel de Render](https://dashboard.render.com/), elige **New → Web Serv
 | Build Command | `pip install -r requirements.txt` |
 | Start Command | `python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Environment Variable | `PYTHON_VERSION` = `3.12.10` |
-| Environment Variable | `DATABASE_URL` = URL directa de Neon |
+| Environment Variable | `DATABASE_URL` = URL con pooling de Neon |
+| Environment Variable | `DATABASE_URL_UNPOOLED` = URL directa de Neon |
 
-Pulsa **Deploy Web Service**. FastAPI crea las tablas al arrancar. La base en Neon empieza vacía. El archivo SQLite local conserva sus propios datos. [FastAPI en Render](https://render.com/docs/deploy-fastapi) · [Directorio de servicio](https://render.com/docs/monorepo-support)
+Pulsa **Deploy Web Service**. FastAPI crea las tablas que falten al arrancar. Render usará los registros de la rama de Neon seleccionada. [FastAPI en Render](https://render.com/docs/deploy-fastapi) · [Directorio de servicio](https://render.com/docs/monorepo-support)
 
 ### 4. Verificar el despliegue y conectar Flutter
 
