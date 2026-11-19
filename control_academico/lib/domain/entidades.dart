@@ -48,20 +48,6 @@ enum EstadoNota {
   }
 }
 
-/// Filtro de las notas que se muestran en la ficha del estudiante.
-enum FiltroNotas {
-  todas('Todas'),
-  reprobadas('Reprobadas');
-
-  const FiltroNotas(this.etiqueta);
-  final String etiqueta;
-
-  bool acepta(Nota nota) => switch (this) {
-    todas => true,
-    reprobadas => nota.estado == EstadoNota.reprobado,
-  };
-}
-
 /// Convierte valores como 14,50 y 14.5. Rechaza más de dos decimales.
 double? interpretarNota(String texto) {
   final limpio = texto.trim();
