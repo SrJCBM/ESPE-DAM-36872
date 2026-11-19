@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../domain/entidades.dart';
 import '../../routes/app_routes.dart';
 import '../view_models/view_models.dart';
 import '../widgets/comunes.dart';
@@ -95,6 +96,7 @@ class ResumenView extends StatelessWidget {
             ],
             if (resumen != null) ...[
               Container(
+                key: const ValueKey('promedio_general'),
                 decoration: BoxDecoration(
                   color: colores.primaryContainer,
                   borderRadius: BorderRadius.circular(22),
@@ -156,8 +158,35 @@ class ResumenView extends StatelessWidget {
                   icono: Icons.assignment_outlined,
                   titulo: 'Sin calificaciones',
                   mensaje: 'Las notas por asignatura aparecerán aquí.',
+                )
+              else ...[
+                SegmentedButton<FiltroNotas>(
+                  key: const ValueKey('filtro_notas'),
+                  showSelectedIcon: false,
+                  segments: [
+                    for (final filtro in FiltroNotas.values)
+                      ButtonSegment(
+                        value: filtro,
+                        label: Text(filtro.etiqueta),
+                      ),
+                  ],
+                  selected: {vm.filtro},
+                  onSelectionChanged: (seleccion) =>
+                      vm.filtrar(seleccion.first),
                 ),
-              for (final item in resumen.notas)
+                const SizedBox(height: 16),
+                if (vm.notasVisibles.isEmpty)
+                  PanelEstado(
+                    icono: Icons.filter_list_off,
+                    titulo:
+                        'No hay calificaciones ${vm.filtro.etiqueta.toLowerCase()}',
+                    mensaje:
+                        'Las demás calificaciones siguen disponibles en Todas.',
+                    accion: () => vm.filtrar(FiltroNotas.todas),
+                    etiqueta: 'Ver todas',
+                  ),
+              ],
+              for (final item in vm.notasVisibles)
                 FilaNota(
                   nota: item.nota,
                   titulo: item.asignatura.datos.nombre,
