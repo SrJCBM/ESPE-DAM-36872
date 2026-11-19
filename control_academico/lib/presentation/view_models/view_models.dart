@@ -134,6 +134,21 @@ class ResumenViewModel extends ChangeNotifier {
   bool cargando = true;
   bool _activo = true;
   int _cargaActual = 0;
+  FiltroNotas _filtro = FiltroNotas.todas;
+
+  FiltroNotas get filtro => _filtro;
+
+  /// Notas que coinciden con el filtro. El promedio no depende de esta lista.
+  List<NotaPorAsignatura> get notasVisibles => [
+    for (final item in resumen?.notas ?? const <NotaPorAsignatura>[])
+      if (_filtro.acepta(item.nota)) item,
+  ];
+
+  void filtrar(FiltroNotas nuevo) {
+    if (nuevo == _filtro) return;
+    _filtro = nuevo;
+    if (_activo) notifyListeners();
+  }
 
   Future<void> cargar() async {
     final turno = ++_cargaActual;
