@@ -2,7 +2,7 @@
 
 Fecha: 17 de noviembre de 2026.
 
-Estado: contrato implementado. El despliegue en Render con PostgreSQL en Neon está pendiente.
+Estado: contrato implementado. El backend de demostración está publicado en Render con PostgreSQL en Neon.
 
 ## 1. Objetivo y alcance
 

@@ -2,6 +2,8 @@
 
 API REST para registrar estudiantes, asignaturas y una nota final por cada pareja de estudiante y asignatura. FastAPI sirve el contrato JSON que consumirá Flutter. El backend guarda las notas como centésimas enteras para calcular el promedio con precisión. Usa SQLite en local y PostgreSQL cuando se configura `DATABASE_URL`.
 
+Para preparar el informe, consulta la [guía y el guion de demostración](docs/GUIA_INFORME.md), la [referencia de la API](docs/API_REST.md) y la [documentación de Flutter](docs/APP_FLUTTER.md).
+
 ## Ejecutar en Windows
 
 Abre PowerShell en la carpeta de la tarea. Usa Python 3.12 y un entorno virtual para instalar los paquetes del proyecto. SQLite viene con Python.
