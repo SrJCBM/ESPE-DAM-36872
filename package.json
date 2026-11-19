@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "python -m compileall -q app"
+  },
+  "dependencies": {
+    "@neon/config": "^1.14.3",
+    "@neon/env": "^2.1.6"
+  }
+}
